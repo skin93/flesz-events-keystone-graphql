@@ -1,4 +1,5 @@
 const dotenv = require('dotenv').config()
+const { atTracking } = require('@keystonejs/list-plugins')
 const { Keystone } = require('@keystonejs/keystone')
 const { PasswordAuthStrategy } = require('@keystonejs/auth-password')
 const { Text, Checkbox, Password } = require('@keystonejs/fields')
@@ -19,60 +20,97 @@ const keystone = new Keystone({
   // onConnect: process.env.CREATE_TABLES !== 'true' && initialiseData
 })
 
-// Access control functions
-const userIsAdmin = ({ authentication: { item: user } }) =>
-  Boolean(user && user.isAdmin)
-const userOwnsItem = ({ authentication: { item: user } }) => {
-  if (!user) {
-    return false
+const isAdmin = ({ authentication: { item: user } }) => {
+  return !!user && !!user.isAdmin
+}
+
+const isLoggedIn = ({ authentication: { item: user } }) => {
+  return !!user
+}
+
+const UserSchema = require('./lists/User')
+const PostSchema = require('./lists/Post')
+const CategorySchema = require('./lists/Category')
+const TagSchema = require('./lists/Tag')
+const ImageSchema = require('./lists/Image')
+
+keystone.createList('Post', {
+  fields: PostSchema.fields,
+  labelResolver: (item) => item.title,
+  plugins: [
+    atTracking({
+      createdAtField: 'createdAt',
+      updatedAtField: 'updatedAt'
+    })
+  ],
+  access: {
+    read: true,
+    create: isLoggedIn,
+    update: isLoggedIn,
+    delete: isLoggedIn
   }
+})
 
-  // Instead of a boolean, you can return a GraphQL query:
-  // https://www.keystonejs.com/api/access-control#graphqlwhere
-  return { id: user.id }
-}
+keystone.createList('Category', {
+  fields: CategorySchema.fields,
+  plugins: [
+    atTracking({
+      createdAtField: 'createdAt',
+      updatedAtField: 'updatedAt'
+    })
+  ],
+  access: {
+    read: true,
+    create: isLoggedIn,
+    update: isLoggedIn,
+    delete: isLoggedIn
+  }
+})
 
-const userIsAdminOrOwner = (auth) => {
-  const isAdmin = access.userIsAdmin(auth)
-  const isOwner = access.userOwnsItem(auth)
-  return isAdmin ? isAdmin : isOwner
-}
-
-const access = { userIsAdmin, userOwnsItem, userIsAdminOrOwner }
+keystone.createList('Tag', {
+  fields: TagSchema.fields,
+  plugins: [
+    atTracking({
+      createdAtField: 'createdAt',
+      updatedAtField: 'updatedAt'
+    })
+  ],
+  access: {
+    read: true,
+    create: isLoggedIn,
+    update: isLoggedIn,
+    delete: isLoggedIn
+  }
+})
 
 keystone.createList('User', {
-  fields: {
-    name: { type: Text },
-    email: {
-      type: Text,
-      isUnique: true
-    },
-    isAdmin: {
-      type: Checkbox,
-      // Field-level access controls
-      // Here, we set more restrictive field access so a non-admin cannot make themselves admin.
-      access: {
-        update: access.userIsAdmin
-      }
-    },
-    password: {
-      type: Password
-    }
-  },
-  // List-level access controls
+  fields: UserSchema.fields,
   access: {
-    read: access.userIsAdminOrOwner,
-    update: access.userIsAdminOrOwner,
-    create: access.userIsAdmin,
-    delete: access.userIsAdmin,
-    auth: true
+    read: true,
+    create: isAdmin,
+    update: isAdmin,
+    delete: isAdmin
+  }
+})
+
+keystone.createList('Image', {
+  fields: ImageSchema.fields,
+  labelResolver: (item) => item.file.filename,
+  access: {
+    read: true,
+    create: isLoggedIn,
+    update: isLoggedIn,
+    delete: isLoggedIn
   }
 })
 
 const authStrategy = keystone.createAuthStrategy({
   type: PasswordAuthStrategy,
   list: 'User',
-  config: { protectIdentities: process.env.NODE_ENV === 'production' }
+  config: {
+    identityField: 'email',
+    secretField: 'password'
+  }
 })
 
 module.exports = {
