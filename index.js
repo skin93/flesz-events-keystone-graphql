@@ -4,6 +4,8 @@ const { PasswordAuthStrategy } = require('@keystonejs/auth-password')
 const { Text, Checkbox, Password } = require('@keystonejs/fields')
 const { GraphQLApp } = require('@keystonejs/app-graphql')
 const { AdminUIApp } = require('@keystonejs/app-admin-ui')
+const { NextApp } = require('@keystonejs/app-next')
+const { StaticApp } = require('@keystonejs/app-static')
 // const initialiseData = require('./initial-data')
 
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose')
@@ -11,7 +13,9 @@ const PROJECT_NAME = process.env.PROJECT_NAME
 const adapterConfig = { mongoUri: process.env.MONGO_URI }
 
 const keystone = new Keystone({
-  adapter: new Adapter(adapterConfig)
+  adapter: new Adapter(adapterConfig),
+  cookieSecret: process.env.COOKIE_SECRET
+
   // onConnect: process.env.CREATE_TABLES !== 'true' && initialiseData
 })
 
@@ -77,8 +81,13 @@ module.exports = {
     new GraphQLApp(),
     new AdminUIApp({
       name: PROJECT_NAME,
-      enableDefaultRoute: true,
+      enableDefaultRoute: false,
       authStrategy
-    })
+    }),
+    new StaticApp({
+      path: '/images',
+      src: './images'
+    }),
+    new NextApp({ dir: 'client' })
   ]
 }
