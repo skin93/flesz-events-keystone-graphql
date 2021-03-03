@@ -4,32 +4,58 @@ import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
+import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-    height: 400
+    maxWidth: 400,
+    height: 300,
+    position: `relative`
+  },
+  actionsArea: {
+    height: `100%`
+  },
+  chip: {
+    position: `absolute`,
+    top: 0,
+    left: 0,
+    fontWeight: `bold`,
+    textTransform: `uppercase`,
+    backgroundColor: theme.palette.accent.main,
+    color: `black`,
+    borderRadius: `5px 0px 0px 0px`
   },
   media: {
-    height: 200
+    height: `100%`
   },
   body: {
-    height: 200,
     display: `flex`,
     flexDirection: `column`,
-    justifyContent: `center`
+    justifyContent: `center`,
+    position: `absolute`,
+    bottom: 0,
+    left: 0,
+    background: `black`,
+    width: `100%`,
+    height: 100,
+    opacity: 0.8
   },
   title: {
+    fontWeight: `bold`,
+    color: theme.palette.light.main
+  },
+  created: {
+    color: theme.palette.accent.main,
     fontWeight: `bold`
   }
-})
+}))
 
 const BaseCard = ({ post }) => {
   const classes = useStyles()
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea className={classes.actionsArea}>
         <CardMedia
           component='img'
           className={classes.media}
@@ -37,6 +63,7 @@ const BaseCard = ({ post }) => {
           title={post.title}
           alt={post.title}
         />
+        <Chip label={post.category.name} className={classes.chip} />
         <CardContent className={classes.body}>
           <Typography
             gutterBottom
@@ -46,8 +73,12 @@ const BaseCard = ({ post }) => {
           >
             {post.title}
           </Typography>
-          <Typography variant='subtitle2' component='p'>
-            {post.createdAt}
+          <Typography
+            variant='subtitle2'
+            component='p'
+            className={classes.created}
+          >
+            {post.createdAt.split('T')[0]}
           </Typography>
         </CardContent>
       </CardActionArea>
