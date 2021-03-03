@@ -75,13 +75,13 @@ const SiteDrawer = ({ navLinks }) => {
 
 export default SiteDrawer
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   list: {
     width: 250
   },
   linkText: {
     textDecoration: `none`,
     textTransform: `uppercase`,
-    color: `black`
+    color: theme.palette.light.main
   }
-})
+}))
