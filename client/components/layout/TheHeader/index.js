@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1
   },
   appBar: {
-    backgroundColor: theme.palette.background.main
+    backgroundColor: theme.palette.black.main
   },
   home: {
     color: theme.palette.light.main
