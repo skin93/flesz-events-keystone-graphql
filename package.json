@@ -29,6 +29,9 @@
     "@keystonejs/file-adapters": "^7.1.0",
     "@keystonejs/keystone": "^19.2.0",
     "@keystonejs/list-plugins": "^8.1.0",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/styles": "^4.11.3",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "slugify": "^1.4.7"
