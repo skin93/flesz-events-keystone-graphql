@@ -34,7 +34,11 @@ const TheHeader = () => {
         <Toolbar variant='dense'>
           <Container maxWidth='lg' className={classes.navbarDisplayFlex}>
             <IconButton edge='start' color='inherit' aria-label='home'>
-              <Home fontSize='large' />
+              <Link href='/'>
+                <a>
+                  <Home fontSize='large' className={classes.home} />
+                </a>
+              </Link>
             </IconButton>
             <Hidden smDown>
               <List
@@ -71,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     backgroundColor: theme.palette.background.main
+  },
+  home: {
+    color: theme.palette.light.main
   },
   menuButton: {
     marginRight: theme.spacing(2)
