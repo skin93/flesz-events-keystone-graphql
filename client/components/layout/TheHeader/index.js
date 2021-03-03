@@ -30,7 +30,7 @@ const TheHeader = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar position='static' className={classes.appBar}>
         <Toolbar variant='dense'>
           <Container maxWidth='lg' className={classes.navbarDisplayFlex}>
             <IconButton edge='start' color='inherit' aria-label='home'>
@@ -69,25 +69,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1
   },
+  appBar: {
+    backgroundColor: theme.palette.background.main
+  },
   menuButton: {
     marginRight: theme.spacing(2)
   },
   title: {
     flexGrow: 1,
     textAlign: 'center'
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-      width: '400px'
-    }
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
-    }
   },
   navbarDisplayFlex: {
     display: `flex`,
@@ -100,6 +90,6 @@ const useStyles = makeStyles((theme) => ({
   linkText: {
     textDecoration: `none`,
     textTransform: `uppercase`,
-    color: `white`
+    color: theme.palette.light.main
   }
 }))
