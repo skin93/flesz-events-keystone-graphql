@@ -1,15 +1,23 @@
 import React from 'react'
+
 import Link from 'next/link'
+
 import { makeStyles } from '@material-ui/core/styles'
+
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+
 import IconButton from '@material-ui/core/IconButton'
 import Home from '@material-ui/icons/Home'
+
 import Container from '@material-ui/core/Container'
 import Hidden from '@material-ui/core/Hidden'
+
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+
+import SiteDrawer from '../SiteDrawer'
 
 const navLinks = [
   { title: `newsy`, path: `/newsy` },
@@ -44,6 +52,9 @@ const TheHeader = () => {
                   </Link>
                 ))}
               </List>
+            </Hidden>
+            <Hidden mdUp>
+              <SiteDrawer navLinks={navLinks} />
             </Hidden>
           </Container>
         </Toolbar>
@@ -88,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
   },
   linkText: {
     textDecoration: `none`,
-    textTransform: `capitalize`,
+    textTransform: `uppercase`,
     color: `white`
   }
 }))
