@@ -6,12 +6,12 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../theme'
 import TheHeader from '../components/layout/TheHeader'
+import Container from '@material-ui/core/Container'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
 
   React.useEffect(() => {
-    // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side')
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles)
@@ -31,7 +31,9 @@ export default function App({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <TheHeader />
-          <Component {...pageProps} />
+          <Container maxWidth='lg'>
+            <Component {...pageProps} />
+          </Container>
         </ThemeProvider>
       </ApolloProvider>
     </React.Fragment>
