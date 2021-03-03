@@ -7,6 +7,7 @@ import Error from '../components/Error'
 import { Typography } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
+import BaseCard from '../components/UI/BaseCard'
 
 const HomePage = () => {
   const { loading, error, data } = useQuery(ALL_POSTS_QUERY)
@@ -28,10 +29,11 @@ const HomePage = () => {
         direction='row'
         justify='center'
         className={classes.container}
+        spacing={3}
       >
         {data.allPosts.map((post) => (
           <Grid item key={post.title}>
-            {post.title}
+            <BaseCard post={post} />
           </Grid>
         ))}
       </Grid>
