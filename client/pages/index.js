@@ -29,7 +29,7 @@ const HomePage = () => {
         direction='row'
         justify='center'
         className={classes.container}
-        spacing={3}
+        spacing={2}
       >
         {data.allPosts.map((post) => (
           <Grid item key={post.title}>
@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
     margin: `30px 0`
   },
   heading: {
-    textAlign: `center`
+    textAlign: `center`,
+    color: theme.palette.light.main
   },
   container: {
     marginTop: `30px`
