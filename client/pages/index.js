@@ -1,4 +1,6 @@
 import React from 'react'
+import Link from 'next/link'
+
 import { useQuery } from '@apollo/client'
 import { ALL_POSTS_QUERY } from '../lib/queries/posts/allPostsQuery'
 
@@ -33,7 +35,11 @@ const HomePage = () => {
       >
         {data.allPosts.map((post) => (
           <Grid item key={post.title}>
-            <BaseCard post={post} />
+            <Link href={`/posts/${post.slug}`}>
+              <a>
+                <BaseCard post={post} />
+              </a>
+            </Link>
           </Grid>
         ))}
       </Grid>
