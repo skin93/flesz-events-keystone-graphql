@@ -115,6 +115,10 @@ const postFields = {
       isUnique: true,
       defaultValue: process.env.IMAGES_PATH
     },
+    cover_src: {
+      type: Text,
+      isUnique: false
+    },
     status: {
       type: Select,
       options: [

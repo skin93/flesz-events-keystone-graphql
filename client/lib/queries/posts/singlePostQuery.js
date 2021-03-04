@@ -6,6 +6,7 @@ export const SINGLE_POST_QUERY = gql`
       excerpt
       body
       cover_url
+      cover_src
       category {
         name
       }

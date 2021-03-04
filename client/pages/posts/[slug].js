@@ -60,7 +60,6 @@ const PostPage = () => {
           ))}
         </Grid>
       </Grid>
-      <Divider light className={classes.divider} />
       <Grid container spacing={3}>
         <Grid item lg={8}>
           <Image
@@ -71,6 +70,9 @@ const PostPage = () => {
             layout='responsive'
             alt={post.title}
           />
+          <Typography variant='caption' className={classes.coverSrc}>
+            {post.cover_src}
+          </Typography>
           <Typography variant='subtitle1' className={classes.excerpt}>
             {post.excerpt}
           </Typography>
@@ -79,7 +81,7 @@ const PostPage = () => {
             dangerouslySetInnerHTML={{ __html: post.body }}
             className={classes.body}
           />
-          <Divider light className={classes.divider} />
+          <Divider className={classes.divider} />
         </Grid>
         {/* TODO: Featured posts column */}
         <Grid item lg={4}>
@@ -107,6 +109,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginTop: 30
   },
+  coverSrc: {
+    color: theme.palette.muted.main,
+    fontWeight: 'bold'
+  },
   body: {
     color: theme.palette.muted.main
   },
@@ -122,7 +128,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.muted.darker
   },
   divider: {
-    margin: `30px 0`
+    margin: `30px 0`,
+    height: `5px`,
+    backgroundColor: theme.palette.muted.main
   },
   excerpt: {
     marginTop: 30
