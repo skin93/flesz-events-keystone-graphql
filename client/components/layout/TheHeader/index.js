@@ -28,7 +28,7 @@ const TheHeader = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static' className={classes.appBar}>
+      <AppBar position='fixed' className={classes.appBar}>
         <Toolbar variant='dense'>
           <Container maxWidth='lg' className={classes.navbarDisplayFlex}>
             <Box
@@ -70,6 +70,7 @@ const TheHeader = () => {
           </Container>
         </Toolbar>
       </AppBar>
+      <div className={classes.offset} />
     </div>
   )
 }
@@ -83,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: theme.palette.black.main
   },
+  offset: theme.mixins.toolbar,
   home: {
     color: theme.palette.light.main
   },
