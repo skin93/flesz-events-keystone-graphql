@@ -6,11 +6,16 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
+import Hidden from '@material-ui/core/Hidden'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 400,
+    width: '100%',
+    maxWidth: 600,
     height: 300,
+    [theme.breakpoints.down('md')]: {
+      height: 400
+    },
     position: `relative`
   },
   actionsArea: {
@@ -27,9 +32,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: `5px 0px 0px 0px`
   },
   media: {
-    height: `100%`
+    height: '100%',
+    [theme.breakpoints.down('sm')]: {
+      height: 200
+    }
   },
-  body: {
+  bodyDesktop: {
     display: `flex`,
     flexDirection: `column`,
     justifyContent: `center`,
@@ -41,9 +49,21 @@ const useStyles = makeStyles((theme) => ({
     height: 100,
     opacity: 0.8
   },
+  bodyMobile: {
+    display: `flex`,
+    flexDirection: `column`,
+    justifyContent: `center`,
+    backgroundColor: theme.palette.background.main,
+    width: `100%`,
+    height: 200,
+    opacity: 0.8
+  },
   title: {
     fontWeight: `bold`,
-    color: theme.palette.light.main
+    color: theme.palette.light.main,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1.2rem'
+    }
   },
   created: {
     color: theme.palette.accent.main,
@@ -64,23 +84,44 @@ const BaseCard = ({ post }) => {
           alt={post.title}
         />
         <Chip label={post.category.name} className={classes.chip} />
-        <CardContent className={classes.body}>
-          <Typography
-            gutterBottom
-            variant='subtitle1'
-            component='h2'
-            className={classes.title}
-          >
-            {post.title}
-          </Typography>
-          <Typography
-            variant='subtitle2'
-            component='p'
-            className={classes.created}
-          >
-            {post.createdAt.split('T')[0]}
-          </Typography>
-        </CardContent>
+        <Hidden smDown>
+          <CardContent className={classes.bodyDesktop}>
+            <Typography
+              gutterBottom
+              variant='subtitle1'
+              component='h2'
+              className={classes.title}
+            >
+              {post.title}
+            </Typography>
+            <Typography
+              variant='subtitle2'
+              component='p'
+              className={classes.created}
+            >
+              {post.createdAt.split('T')[0]}
+            </Typography>
+          </CardContent>
+        </Hidden>
+        <Hidden mdUp>
+          <CardContent className={classes.bodyMobile}>
+            <Typography
+              gutterBottom
+              variant='subtitle1'
+              component='h2'
+              className={classes.title}
+            >
+              {post.title}
+            </Typography>
+            <Typography
+              variant='subtitle2'
+              component='p'
+              className={classes.created}
+            >
+              {post.createdAt.split('T')[0]}
+            </Typography>
+          </CardContent>
+        </Hidden>
       </CardActionArea>
     </Card>
   )
