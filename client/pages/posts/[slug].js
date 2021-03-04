@@ -35,7 +35,7 @@ const PostPage = () => {
 
   return (
     <article className={classes.root}>
-      <Typography variant='h4' component='h1' className={classes.title}>
+      <Typography variant='h1' className={classes.title}>
         {post.title}
       </Typography>
       <Grid container className={classes.publishedContainer}>
@@ -52,7 +52,11 @@ const PostPage = () => {
         </Grid>
         <Grid item>
           {post.authors.map((author) => (
-            <Chip label={author.name} key={author.name} />
+            <Chip
+              label={author.name}
+              key={author.name}
+              className={classes.author}
+            />
           ))}
         </Grid>
       </Grid>
@@ -67,11 +71,7 @@ const PostPage = () => {
             layout='responsive'
             alt={post.title}
           />
-          <Typography
-            variant='subtitle1'
-            component='p'
-            className={classes.excerpt}
-          >
+          <Typography variant='subtitle1' className={classes.excerpt}>
             {post.excerpt}
           </Typography>
           <Divider light className={classes.divider} />
@@ -114,6 +114,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.black.main,
     fontWeight: `bold`,
     backgroundColor: theme.palette.accent.main
+  },
+  createdAt: {
+    backgroundColor: theme.palette.muted.darker
+  },
+  author: {
+    backgroundColor: theme.palette.muted.darker
   },
   divider: {
     margin: `30px 0`
