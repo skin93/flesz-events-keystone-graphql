@@ -7,9 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 
-import IconButton from '@material-ui/core/IconButton'
-import Home from '@material-ui/icons/Home'
-
 import Container from '@material-ui/core/Container'
 import Hidden from '@material-ui/core/Hidden'
 
@@ -18,6 +15,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 
 import SiteDrawer from '../SiteDrawer'
+import Box from '@material-ui/core/Box'
 
 const navLinks = [
   { title: `newsy`, path: `/newsy` },
@@ -33,13 +31,22 @@ const TheHeader = () => {
       <AppBar position='static' className={classes.appBar}>
         <Toolbar variant='dense'>
           <Container maxWidth='lg' className={classes.navbarDisplayFlex}>
-            <IconButton edge='start' color='inherit' aria-label='home'>
+            <Box
+              className={classes.navbarBrand}
+              color='inherit'
+              aria-label='home'
+            >
               <Link href='/'>
                 <a>
-                  <Home fontSize='large' className={classes.home} />
+                  <Box
+                    component='img'
+                    src='/biale-logo-pelny-napis-akcent.png'
+                    className={classes.logo}
+                    alt='logo'
+                  />
                 </a>
               </Link>
-            </IconButton>
+            </Box>
             <Hidden smDown>
               <List
                 component='nav'
@@ -89,6 +96,18 @@ const useStyles = makeStyles((theme) => ({
   navbarDisplayFlex: {
     display: `flex`,
     justifyContent: `space-between`
+  },
+  navbarBrand: {
+    padding: `8px 16px`,
+    display: `flex`,
+    justifyContent: `flex-start`,
+    alignItems: `center`
+  },
+  logo: {
+    display: `flex`,
+    justifyContent: `center`,
+    alignItems: `center`,
+    width: `150px`
   },
   navDisplayFlex: {
     display: `flex`,
