@@ -18,9 +18,9 @@ import SiteDrawer from '../SiteDrawer'
 import Box from '@material-ui/core/Box'
 
 const navLinks = [
-  { title: `newsy`, path: `/newsy` },
-  { title: `festiwale`, path: `/festiwale` },
-  { title: `koncerty`, path: `/koncerty` }
+  { title: `newsy`, path: `/categories/newsy` },
+  { title: `festiwale`, path: `/categories/festiwale` },
+  { title: `koncerty`, path: `/categories/koncerty` }
 ]
 
 const TheHeader = () => {
