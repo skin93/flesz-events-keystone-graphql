@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
@@ -40,8 +41,26 @@ const PostPage = () => {
       </Typography>
       <Grid container className={classes.publishedContainer}>
         <Grid item>
+          <Link href={`/categories/${post.category.slug}`}>
+            <a>
+              <Chip
+                label={post.category.name}
+                className={classes.categoryItem}
+              />
+            </a>
+          </Link>
+        </Grid>
+        <Grid item>
           {post.tags.map((tag) => (
-            <Chip key={tag.name} label={tag.name} className={classes.tagItem} />
+            <Link href={`/tags/${tag.slug}`}>
+              <a>
+                <Chip
+                  key={tag.name}
+                  label={<span>#{tag.name}</span>}
+                  className={classes.tagItem}
+                />
+              </a>
+            </Link>
           ))}
         </Grid>
         <Grid item>
@@ -116,10 +135,18 @@ const useStyles = makeStyles((theme) => ({
   body: {
     color: theme.palette.muted.main
   },
-  tagItem: {
+  categoryItem: {
     color: theme.palette.black.main,
     fontWeight: `bold`,
-    backgroundColor: theme.palette.accent.main
+    backgroundColor: theme.palette.accent.main,
+    cursor: 'pointer',
+    textTransform: 'uppercase'
+  },
+  tagItem: {
+    fontWeight: `bold`,
+    backgroundColor: theme.palette.muted.darker,
+    cursor: 'pointer',
+    textTransform: 'uppercase'
   },
   createdAt: {
     backgroundColor: theme.palette.muted.darker
