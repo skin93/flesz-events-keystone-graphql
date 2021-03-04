@@ -9,9 +9,11 @@ export const SINGLE_POST_QUERY = gql`
       cover_src
       category {
         name
+        slug
       }
       tags {
         name
+        slug
       }
       createdAt
       authors {
