@@ -11,14 +11,14 @@ const theme = createMuiTheme({
           backgroundColor: 'rgb(36,36,36)'
         },
         blockquote: {
-          background: `inherit`,
+          background: `rgba(179, 179, 179, 0.1)`,
           color: `rgba(255, 255, 255, 0.9)`,
-          padding: `20px 30px`,
+          padding: `30px`,
+          lineHeight: `2em`,
           margin: `30px auto`,
-          lineHeight: `3rem`,
           width: `80%`,
-          borderLeft: `3px solid #32e0c4`,
-          fontStyle: `italic`
+          borderLeft: `5px solid #32e0c4`,
+          fontSize: `1.2rem`
         },
         iframe: {
           position: `relative`,
@@ -29,7 +29,11 @@ const theme = createMuiTheme({
           margin: `30px 0`
         },
         h2: {
-          color: `#eee`
+          color: `#eee`,
+          fontSize: `2rem`
+        },
+        p: {
+          fontSize: `1.2rem`
         },
         a: {
           color: '#32e0c4',
@@ -46,6 +50,7 @@ const theme = createMuiTheme({
         },
         li: {
           margin: `10px 0`,
+          fontSize: `1.2rem`,
           '&::marker': {
             color: '#32e0c4'
           }
@@ -70,10 +75,20 @@ const theme = createMuiTheme({
       main: '#212121'
     },
     muted: {
-      main: ' rgb(179, 179, 179)'
+      main: 'rgb(179, 179, 179)',
+      darker: 'rgba(179, 179, 179, 0.1)'
     },
     background: {
       main: 'rgb(36,36,36)'
+    }
+  },
+  typography: {
+    h1: {
+      fontSize: `3rem`
+    },
+    subtitle1: {
+      fontSize: `1.2rem`,
+      fontWeight: `bold`
     }
   }
 })
