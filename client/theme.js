@@ -83,6 +83,7 @@ const theme = createMuiTheme({
     }
   },
   typography: {
+    fontFamily: ['Lato', 'sans-serif'].join(','),
     h1: {
       fontSize: `3rem`
     },
