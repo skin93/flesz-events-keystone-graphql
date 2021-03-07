@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import Fade from '@material-ui/core/Fade'
 import Box from '@material-ui/core/Box'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
@@ -35,80 +36,82 @@ const PostPage = () => {
   const post = data && data.allPosts[0]
 
   return (
-    <article className={classes.root}>
-      <Box component='div' className={classes.chips}>
-        <Link href={`/categories/${post.category.slug}`}>
-          <a>
-            <Chip label={post.category.name} className={classes.category} />
-          </a>
-        </Link>
-        {post.tags.map((tag) => (
-          <Link href={`/tags/${tag.slug}`}>
+    <Fade in='true' timeout={500}>
+      <article className={classes.root}>
+        <Box component='div' className={classes.chips}>
+          <Link href={`/categories/${post.category.slug}`}>
             <a>
-              <Chip
-                key={tag.name}
-                label={tag.name}
-                className={classes.tagItem}
-              />
+              <Chip label={post.category.name} className={classes.category} />
             </a>
           </Link>
-        ))}
-        <Chip
-          label={post.createdAt.split('T')[0]}
-          className={classes.createdAt}
-        />
-        {post.authors.map((author) => (
+          {post.tags.map((tag) => (
+            <Link href={`/tags/${tag.slug}`}>
+              <a>
+                <Chip
+                  key={tag.name}
+                  label={tag.name}
+                  className={classes.tagItem}
+                />
+              </a>
+            </Link>
+          ))}
           <Chip
-            label={<span>@{author.name}</span>}
-            key={author.name}
-            className={classes.author}
+            label={post.createdAt.split('T')[0]}
+            className={classes.createdAt}
           />
-        ))}
-      </Box>
-      <Typography
-        variant='h3'
-        component='h1'
-        aria-label='article-title'
-        className={classes.title}
-      >
-        {post.title}
-      </Typography>
-      <Typography
-        variant='subtitle1'
-        className={classes.excerpt}
-        aria-label='article-excerpt'
-      >
-        {post.excerpt}
-      </Typography>
+          {post.authors.map((author) => (
+            <Chip
+              label={<span>@{author.name}</span>}
+              key={author.name}
+              className={classes.author}
+            />
+          ))}
+        </Box>
+        <Typography
+          variant='h3'
+          component='h1'
+          aria-label='article-title'
+          className={classes.title}
+        >
+          {post.title}
+        </Typography>
+        <Typography
+          variant='subtitle1'
+          className={classes.excerpt}
+          aria-label='article-excerpt'
+        >
+          {post.excerpt}
+        </Typography>
 
-      <Grid container aria-label='article-content'>
-        <Grid item>
-          <Image
-            src={post.cover_url}
-            width={800}
-            height={450}
-            quality={100}
-            layout='responsive'
-            alt={post.title}
-            aria-label='article-cover'
-          />
+        <Grid container aria-label='article-content'>
+          <Grid item>
+            <Image
+              src={post.cover_url}
+              width={800}
+              height={450}
+              quality={100}
+              layout='responsive'
+              alt={post.title}
+              aria-label='article-cover'
+            />
 
-          <Typography
-            variant='caption'
-            className={classes.coverSrc}
-            aria-label='article-cover-src'
-          >
-            {post.cover_src}
-          </Typography>
-          <Box
-            dangerouslySetInnerHTML={{ __html: post.body }}
-            className={classes.body}
-            aria-label='article-body'
-          />
-          <Divider />
+            <Typography
+              variant='caption'
+              className={classes.coverSrc}
+              aria-label='article-cover-src'
+            >
+              {post.cover_src}
+            </Typography>
+            <Box
+              dangerouslySetInnerHTML={{ __html: post.body }}
+              className={classes.body}
+              aria-label='article-body'
+            />
+            <Divider />
+          </Grid>
         </Grid>
-      </Grid>
-    </article>
+      </article>
+    </Fade>
   )
 }
 

@@ -5,7 +5,8 @@ import { useQuery } from '@apollo/client'
 import { ALL_POSTS_QUERY } from '../lib/queries/posts/allPostsQuery'
 
 import Error from '../components/Error'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
+import Fade from '@material-ui/core/Fade'
 
 import { makeStyles } from '@material-ui/core/styles'
 import BaseCard from '../components/UI/BaseCard'
@@ -27,20 +28,22 @@ const HomePage = () => {
       <Typography variant='h6' className={classes.heading}>
         OSTATNIE WPISY
       </Typography>
-      <ResponsiveMasonry
-        columnsCountBreakPoints={{ 0: 1, 600: 2, 960: 3 }}
-        className={classes.container}
-      >
-        <Masonry gutter={10}>
-          {data.allPosts.map((post) => (
-            <Link key={post.title} href={`/posts/${post.slug}`}>
-              <a>
-                <BaseCard post={post} />
-              </a>
-            </Link>
-          ))}
-        </Masonry>
-      </ResponsiveMasonry>
+      <Fade in='true' timeout={500}>
+        <ResponsiveMasonry
+          columnsCountBreakPoints={{ 0: 1, 600: 2, 960: 3 }}
+          className={classes.container}
+        >
+          <Masonry gutter={10}>
+            {data.allPosts.map((post) => (
+              <Link key={post.title} href={`/posts/${post.slug}`}>
+                <a>
+                  <BaseCard post={post} />
+                </a>
+              </Link>
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
+      </Fade>
     </main>
   )
 }
