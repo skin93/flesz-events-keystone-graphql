@@ -5,12 +5,13 @@ import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
 import { ALL_POSTS_BY_CATEGORY_QUERY } from '../../lib/queries/posts/allPostsByCategoryQuery'
 import { SINGLE_CATEGORY_QUERY } from '../../lib/queries/categories/singleCategoryQuery'
-import Grid from '@material-ui/core/Grid'
 import Error from '../../components/Error'
 import { Typography } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
 import BaseCard from '../../components/UI/BaseCard'
+
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 const CategoryPage = () => {
   const router = useRouter()
@@ -29,27 +30,24 @@ const CategoryPage = () => {
   }
   return (
     <main className={classes.root}>
-      <Typography variant='h4' className={classes.heading}>
+      <Typography variant='h6' className={classes.heading}>
         <span>#</span>
         {res2.data.allCategories[0].name}
       </Typography>
-      <Grid
-        container
-        direction='row'
-        justify='center'
+      <ResponsiveMasonry
+        columnsCountBreakPoints={{ 0: 1, 600: 2, 960: 3 }}
         className={classes.container}
-        spacing={2}
       >
-        {res1.data.allPosts.map((post) => (
-          <Grid item key={post.title}>
-            <Link href={`/posts/${post.slug}`}>
+        <Masonry gutter={10}>
+          {res1.data.allPosts.map((post) => (
+            <Link key={post.title} href={`/posts/${post.slug}`}>
               <a>
                 <BaseCard post={post} />
               </a>
             </Link>
-          </Grid>
-        ))}
-      </Grid>
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
     </main>
   )
 }
@@ -57,12 +55,11 @@ const CategoryPage = () => {
 export default CategoryPage
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: `30px 0`
-  },
+  root: { padding: '15px' },
   heading: {
     fontWeight: `bold`,
     textAlign: `center`,
+    textTransform: 'uppercase',
     color: theme.palette.light.main,
     '& span': {
       color: theme.palette.accent.main

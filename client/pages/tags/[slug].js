@@ -12,6 +12,8 @@ import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import BaseCard from '../../components/UI/BaseCard'
 
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+
 const TagPage = () => {
   const router = useRouter()
   const { slug } = router.query
@@ -29,27 +31,24 @@ const TagPage = () => {
   }
   return (
     <main className={classes.root}>
-      <Typography variant='h4' className={classes.heading}>
+      <Typography variant='h6' className={classes.heading}>
         <span>#</span>
         {res2.data.allTags[0].name}
       </Typography>
-      <Grid
-        container
-        direction='row'
-        justify='center'
+      <ResponsiveMasonry
+        columnsCountBreakPoints={{ 0: 1, 600: 2, 960: 3 }}
         className={classes.container}
-        spacing={2}
       >
-        {res1.data.allPosts.map((post) => (
-          <Grid item key={post.title}>
-            <Link href={`/posts/${post.slug}`}>
+        <Masonry gutter={10}>
+          {res1.data.allPosts.map((post) => (
+            <Link key={post.title} href={`/posts/${post.slug}`}>
               <a>
                 <BaseCard post={post} />
               </a>
             </Link>
-          </Grid>
-        ))}
-      </Grid>
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
     </main>
   )
 }
@@ -57,12 +56,11 @@ const TagPage = () => {
 export default TagPage
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: `30px 0`
-  },
+  root: { padding: '15px' },
   heading: {
     fontWeight: `bold`,
     textAlign: `center`,
+    textTransform: 'uppercase',
     color: theme.palette.light.main,
     '& span': {
       color: theme.palette.accent.main

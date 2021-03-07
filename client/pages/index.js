@@ -4,12 +4,13 @@ import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { ALL_POSTS_QUERY } from '../lib/queries/posts/allPostsQuery'
 
-import Grid from '@material-ui/core/Grid'
 import Error from '../components/Error'
 import { Typography } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
 import BaseCard from '../components/UI/BaseCard'
+
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 const HomePage = () => {
   const { loading, error, data } = useQuery(ALL_POSTS_QUERY)
@@ -23,26 +24,23 @@ const HomePage = () => {
   }
   return (
     <main className={classes.root}>
-      <Typography variant='h4' className={classes.heading}>
+      <Typography variant='h6' className={classes.heading}>
         OSTATNIE WPISY
       </Typography>
-      <Grid
-        container
-        direction='row'
-        justify='center'
+      <ResponsiveMasonry
+        columnsCountBreakPoints={{ 0: 1, 600: 2, 960: 3 }}
         className={classes.container}
-        spacing={2}
       >
-        {data.allPosts.map((post) => (
-          <Grid item key={post.title}>
-            <Link href={`/posts/${post.slug}`}>
+        <Masonry gutter={10}>
+          {data.allPosts.map((post) => (
+            <Link key={post.title} href={`/posts/${post.slug}`}>
               <a>
                 <BaseCard post={post} />
               </a>
             </Link>
-          </Grid>
-        ))}
-      </Grid>
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
     </main>
   )
 }
@@ -50,9 +48,7 @@ const HomePage = () => {
 export default HomePage
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: `30px 0`
-  },
+  root: { padding: '15px' },
   heading: {
     textAlign: `center`,
     color: theme.palette.light.main
