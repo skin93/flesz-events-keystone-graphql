@@ -7,6 +7,7 @@ export const ALL_POSTS_QUERY = gql`
       cover_url
       category {
         name
+        slug
       }
       createdAt
     }
