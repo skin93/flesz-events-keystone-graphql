@@ -36,9 +36,6 @@ const PostPage = () => {
 
   return (
     <article className={classes.root}>
-      <Typography variant='h1' className={classes.title}>
-        {post.title}
-      </Typography>
       <Grid container className={classes.publishedContainer}>
         <Grid item>
           <Link href={`/categories/${post.category.slug}`}>
@@ -79,8 +76,24 @@ const PostPage = () => {
           ))}
         </Grid>
       </Grid>
-      <Grid container spacing={3}>
-        <Grid item lg={8}>
+
+      <Typography
+        variant='h4'
+        component='h1'
+        aria-label='article-title'
+        className={classes.title}
+      >
+        {post.title}
+      </Typography>
+      <Typography
+        variant='subtitle1'
+        className={classes.excerpt}
+        aria-label='article-excerpt'
+      >
+        {post.excerpt}
+      </Typography>
+      <Grid container aria-label='article-content'>
+        <Grid item>
           <Image
             src={post.cover_url}
             width={800}
@@ -88,23 +101,22 @@ const PostPage = () => {
             quality={100}
             layout='responsive'
             alt={post.title}
+            aria-label='article-cover'
           />
-          <Typography variant='caption' className={classes.coverSrc}>
+
+          <Typography
+            variant='caption'
+            className={classes.coverSrc}
+            aria-label='article-cover-src'
+          >
             {post.cover_src}
           </Typography>
-          <Typography variant='subtitle1' className={classes.excerpt}>
-            {post.excerpt}
-          </Typography>
-          <Divider light className={classes.divider} />
           <Box
             dangerouslySetInnerHTML={{ __html: post.body }}
             className={classes.body}
+            aria-label='article-body'
           />
-          <Divider className={classes.divider} />
-        </Grid>
-        {/* TODO: Featured posts column */}
-        <Grid item lg={4}>
-          cos
+          <Divider />
         </Grid>
       </Grid>
     </article>
@@ -115,18 +127,24 @@ export default PostPage
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    padding: '15px'
+  },
+  title: {
+    fontWeight: 'bold'
+  },
+  excerpt: {
+    marginBottom: '30px',
+    fontWeight: 100,
+    color: theme.palette.muted.main
   },
   publishedContainer: {
-    margin: `30px 0`,
+    marginBottom: `30px`,
     alignItems: `center`,
     '& div': {
       marginRight: '5px',
       borderRadius: 0
     }
-  },
-  title: {
-    marginTop: 30
   },
   coverSrc: {
     color: theme.palette.muted.main,
@@ -158,8 +176,5 @@ const useStyles = makeStyles((theme) => ({
     margin: `30px 0`,
     height: `5px`,
     backgroundColor: theme.palette.muted.main
-  },
-  excerpt: {
-    marginTop: 30
   }
 }))
