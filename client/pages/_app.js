@@ -7,6 +7,9 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../theme'
 import TheHeader from '../components/layout/TheHeader'
 import Container from '@material-ui/core/Container'
+import Grid from '@material-ui/core/Grid'
+import FeaturedPosts from '../components/layout/FeaturedPosts'
+import Divider from '@material-ui/core/Divider'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
@@ -36,8 +39,18 @@ export default function App({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <TheHeader />
-          <Container maxWidth='lg'>
-            <Component {...pageProps} />
+          <Container maxWidth='lg' style={{ marginTop: '30px' }}>
+            <Grid container justify='space-around'>
+              <Grid item xs={12} lg={9}>
+                <Component {...pageProps} />
+              </Grid>
+              <Grid item>
+                <Divider orientation='vertical' lg={1} />
+              </Grid>
+              <Grid item xs={12} lg={2} container justify='center'>
+                <FeaturedPosts />
+              </Grid>
+            </Grid>
           </Container>
         </ThemeProvider>
       </ApolloProvider>
