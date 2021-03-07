@@ -36,49 +36,37 @@ const PostPage = () => {
 
   return (
     <article className={classes.root}>
-      <Grid container className={classes.publishedContainer}>
-        <Grid item>
-          <Link href={`/categories/${post.category.slug}`}>
+      <Box component='div' className={classes.chips}>
+        <Link href={`/categories/${post.category.slug}`}>
+          <a>
+            <Chip label={post.category.name} className={classes.category} />
+          </a>
+        </Link>
+        {post.tags.map((tag) => (
+          <Link href={`/tags/${tag.slug}`}>
             <a>
               <Chip
-                label={post.category.name}
-                className={classes.categoryItem}
+                key={tag.name}
+                label={tag.name}
+                className={classes.tagItem}
               />
             </a>
           </Link>
-        </Grid>
-        <Grid item>
-          {post.tags.map((tag) => (
-            <Link href={`/tags/${tag.slug}`}>
-              <a>
-                <Chip
-                  key={tag.name}
-                  label={<span>#{tag.name}</span>}
-                  className={classes.tagItem}
-                />
-              </a>
-            </Link>
-          ))}
-        </Grid>
-        <Grid item>
+        ))}
+        <Chip
+          label={post.createdAt.split('T')[0]}
+          className={classes.createdAt}
+        />
+        {post.authors.map((author) => (
           <Chip
-            label={post.createdAt.split('T')[0]}
-            className={classes.createdAt}
+            label={<span>@{author.name}</span>}
+            key={author.name}
+            className={classes.author}
           />
-        </Grid>
-        <Grid item>
-          {post.authors.map((author) => (
-            <Chip
-              label={author.name}
-              key={author.name}
-              className={classes.author}
-            />
-          ))}
-        </Grid>
-      </Grid>
-
+        ))}
+      </Box>
       <Typography
-        variant='h4'
+        variant='h3'
         component='h1'
         aria-label='article-title'
         className={classes.title}
@@ -92,6 +80,7 @@ const PostPage = () => {
       >
         {post.excerpt}
       </Typography>
+
       <Grid container aria-label='article-content'>
         <Grid item>
           <Image
@@ -130,21 +119,16 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: '15px'
   },
+  chips: {
+    marginBottom: '30px'
+  },
   title: {
     fontWeight: 'bold'
   },
   excerpt: {
-    marginBottom: '30px',
     fontWeight: 100,
-    color: theme.palette.muted.main
-  },
-  publishedContainer: {
-    marginBottom: `30px`,
-    alignItems: `center`,
-    '& div': {
-      marginRight: '5px',
-      borderRadius: 0
-    }
+    color: theme.palette.muted.main,
+    marginBottom: '30px'
   },
   coverSrc: {
     color: theme.palette.muted.main,
@@ -153,21 +137,26 @@ const useStyles = makeStyles((theme) => ({
   body: {
     color: theme.palette.muted.main
   },
-  categoryItem: {
+  category: {
     color: theme.palette.black.main,
     fontWeight: `bold`,
     backgroundColor: theme.palette.accent.main,
     cursor: 'pointer',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    marginRight: '10px',
+    fontSize: '.7em'
   },
   tagItem: {
     fontWeight: `bold`,
-    backgroundColor: theme.palette.muted.darker,
     cursor: 'pointer',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    marginRight: '10px',
+    fontSize: '.7em'
   },
   createdAt: {
-    backgroundColor: theme.palette.muted.darker
+    backgroundColor: theme.palette.muted.darker,
+    marginRight: '10px',
+    fontSize: '.7em'
   },
   author: {
     backgroundColor: theme.palette.muted.darker
