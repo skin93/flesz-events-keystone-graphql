@@ -35,7 +35,7 @@ const FeaturedPosts = () => {
         className={classes.container}
       >
         {data.allPosts.map((post) => (
-          <Grid item key={post.title} xs={12} sm={6} md={4} lg={12}>
+          <Grid item key={post.title} xs={12} sm={6} lg={12}>
             <Link href={`/posts/${post.slug}`}>
               <a>
                 <FeaturedCard post={post} />
