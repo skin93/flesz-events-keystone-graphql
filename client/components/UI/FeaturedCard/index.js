@@ -1,9 +1,10 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
 const FeaturedCard = ({ post }) => {
@@ -11,23 +12,25 @@ const FeaturedCard = ({ post }) => {
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
-          component='img'
-          className={classes.media}
-          image={post.cover_url}
-          title={post.title}
-          alt={post.title}
-        />
-        <CardContent className={classes.content}>
-          <Typography
-            gutterBottom
-            variant='subtitle2'
-            component='h2'
-            className={classes.title}
-          >
-            {post.title}
-          </Typography>
-        </CardContent>
+        <Box component='div' className={classes.box}>
+          <CardMedia
+            component='img'
+            className={classes.media}
+            image={post.cover_url}
+            title={post.title}
+            alt={post.title}
+          />
+          <CardContent className={classes.content}>
+            <Typography
+              gutterBottom
+              variant='subtitle2'
+              component='h2'
+              className={classes.title}
+            >
+              {post.title}
+            </Typography>
+          </CardContent>
+        </Box>
       </CardActionArea>
     </Card>
   )
@@ -39,32 +42,33 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     width: '100%',
-    height: 150,
+    height: 80,
     marginBottom: '10px',
     borderRadius: '10px'
   },
-  actionsArea: {
-    height: 150
+  box: {
+    display: 'flex',
+    flexDirection: 'row'
   },
   media: {
-    height: 150
+    height: 80,
+    width: 100
   },
   content: {
+    width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 80,
     backgroundColor: theme.palette.background.main,
 
     opacity: 0.8
   },
   title: {
     fontWeight: 'bold',
+
     color: theme.palette.light.main,
-    margin: 0
+    margin: 0,
+    fontSize: 'calc(12px + .2vw)'
   }
 }))
