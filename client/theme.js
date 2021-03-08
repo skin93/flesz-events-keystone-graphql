@@ -26,24 +26,25 @@ const theme = createMuiTheme({
           backgroundColor: 'rgb(36,36,36)'
         },
         blockquote: {
+          fontWeight: 600,
+          fontStyle: 'italic',
+          quotes: `"“" "”" "‘" "’"`,
           position: 'relative',
-          '&:before': {
+          '&::before': {
             content: 'open-quote',
             position: 'absolute',
-            top: 30,
-            left: -10,
-            fontSize: '4em',
+            top: 60,
+            left: -40,
+            fontSize: '6em',
             color: '#32e0c4'
           },
-          // background: `rgba(179, 179, 179, 0.1)`,
           backgroundColor: 'transparent',
           color: `rgba(255, 255, 255, 0.9)`,
           padding: `30px`,
           lineHeight: `2em`,
           margin: `30px auto`,
           width: `80%`,
-          // borderLeft: `5px solid #32e0c4`,
-          fontSize: `1.2rem`
+          fontSize: 'calc(.7rem + .5vw)'
         },
         h2: {
           color: `#eee`,
