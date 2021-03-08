@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     width: '100%',
-    height: 80,
+    height: 100,
     marginBottom: '10px',
     borderRadius: '10px'
   },
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row'
   },
   media: {
-    height: 80,
+    height: 100,
     width: 100
   },
   content: {
@@ -59,16 +59,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 80,
+    height: 100,
     backgroundColor: theme.palette.background.main,
 
     opacity: 0.8
   },
   title: {
     fontWeight: 'bold',
-
     color: theme.palette.light.main,
     margin: 0,
-    fontSize: 'calc(12px + .2vw)'
+    fontSize: 'calc(12px + .2vw)',
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '13px'
+    }
   }
 }))
