@@ -17,14 +17,14 @@ import SkeletonCard from '../components/UI/SkeletonCard'
 
 const HomePage = () => {
   const [skip, setSkip] = React.useState(0)
-  const [first, setFirst] = React.useState(1)
+  const [first, setFirst] = React.useState(4)
   const { loading, error, data } = useQuery(ALL_POSTS_QUERY, {
     variables: { skip, first }
   })
   const classes = useStyles()
 
   const handleClick = () => {
-    setFirst((prev) => prev + 1)
+    setFirst((prev) => prev + 4)
   }
   if (error) {
     return <Error message='Coś poszło nie tak :(' />
