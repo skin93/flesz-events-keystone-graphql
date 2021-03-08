@@ -136,12 +136,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '30px'
   },
   title: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 'calc(1.1rem + 2vw)'
   },
   excerpt: {
+    fontSize: 'calc(.7rem + .5vw)',
     fontWeight: 100,
-    color: theme.palette.muted.main,
-    marginBottom: '30px'
+    color: theme.palette.light.main,
+    margin: '30px 0'
   },
   coverSrc: {
     color: theme.palette.muted.main,

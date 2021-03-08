@@ -47,10 +47,12 @@ const theme = createMuiTheme({
         },
         h2: {
           color: `#eee`,
-          fontSize: `2rem`
+          fontWeight: 'bold',
+          fontSize: 'calc(1rem + 1vw)'
         },
         p: {
-          fontSize: `1.2rem`
+          fontSize: 'calc(.7rem + .5vw)',
+          lineHeight: '1.5'
         },
         a: {
           color: '#32e0c4',
@@ -67,7 +69,7 @@ const theme = createMuiTheme({
         },
         li: {
           margin: `10px 0`,
-          fontSize: `1.2rem`,
+          fontSize: 'calc(.7rem + .5vw)',
           '&::marker': {
             color: '#32e0c4'
           }
