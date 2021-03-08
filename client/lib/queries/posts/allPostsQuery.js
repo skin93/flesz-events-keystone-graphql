@@ -11,7 +11,7 @@ export const ALL_POSTS_QUERY = gql`
       }
       createdAt
     }
-    _allPostsMeta {
+    _allPostsMeta(where: { status: PUBLISHED }) {
       count
     }
   }

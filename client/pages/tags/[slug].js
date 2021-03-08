@@ -8,14 +8,13 @@ import { SINGLE_TAG_QUERY } from '../../lib/queries/tags/singleTagQuery'
 
 import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
+import Grid from '@material-ui/core/Grid'
 
 import { makeStyles } from '@material-ui/core/styles'
 
 import Error from '../../components/Error'
 import BaseCard from '../../components/UI/BaseCard'
 import SkeletonCard from '../../components/UI/SkeletonCard'
-
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 const TagPage = () => {
   const router = useRouter()
@@ -30,39 +29,37 @@ const TagPage = () => {
     return <Error message='Can not fetch data' />
   }
   return (
-    <Fade in='true' timeout={500}>
+    <Fade in={true} timeout={500}>
       <main className={classes.root}>
         {res1.loading || res2.loading ? (
-          <ResponsiveMasonry
-            columnsCountBreakPoints={{ 0: 1, 600: 2, 960: 3 }}
-            className={classes.container}
-          >
-            <Masonry gutter={10}>
-              {[0, 1, 2, 3, 4, 5].map((x, index) => (
-                <SkeletonCard key={index} />
-              ))}
-            </Masonry>
-          </ResponsiveMasonry>
+          <Grid container spacing={2}>
+            {[0, 1, 2, 3, 4, 5].map((x, index) => (
+              <Fade key={index} in={true} timeout={500}>
+                <Grid item xs={12} sm={6} md={4} lg={6}>
+                  <SkeletonCard />
+                </Grid>
+              </Fade>
+            ))}
+          </Grid>
         ) : (
           <React.Fragment>
             <Typography variant='h6' className={classes.heading}>
               <span>#</span>
               {res2.data.allTags[0].name}
             </Typography>
-            <ResponsiveMasonry
-              columnsCountBreakPoints={{ 0: 1, 600: 2, 960: 3 }}
-              className={classes.container}
-            >
-              <Masonry gutter={10}>
-                {res1.data.allPosts.map((post) => (
-                  <Link key={post.title} href={`/posts/${post.slug}`}>
-                    <a>
-                      <BaseCard post={post} />
-                    </a>
-                  </Link>
-                ))}
-              </Masonry>
-            </ResponsiveMasonry>
+            <Grid container spacing={2} className={classes.container}>
+              {res1.data.allPosts.map((post) => (
+                <Fade key={post.title} in={true} timeout={500}>
+                  <Grid item xs={12} sm={6} md={4} lg={6}>
+                    <Link href={`/posts/${post.slug}`}>
+                      <a>
+                        <BaseCard post={post} />
+                      </a>
+                    </Link>
+                  </Grid>
+                </Fade>
+              ))}
+            </Grid>
           </React.Fragment>
         )}
       </main>

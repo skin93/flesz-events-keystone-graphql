@@ -33,7 +33,7 @@ const PostPage = () => {
   const post = data && data.allPosts[0]
 
   return (
-    <Fade in='true' timeout={500}>
+    <Fade in={true} timeout={500}>
       {loading ? (
         <div>
           <Skeleton variant='rect' width={800} height={50} />
@@ -54,7 +54,7 @@ const PostPage = () => {
               </a>
             </Link>
             {post.tags.map((tag) => (
-              <Link href={`/tags/${tag.slug}`}>
+              <Link key={tag.slug} href={`/tags/${tag.slug}`}>
                 <a>
                   <Chip
                     key={tag.name}

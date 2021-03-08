@@ -41,13 +41,13 @@ export default function App({ Component, pageProps }) {
           <TheHeader />
           <Container maxWidth='lg' style={{ marginTop: '30px' }}>
             <Grid container justify='space-around'>
-              <Grid item xs={12} lg={9}>
+              <Grid item xs={12} lg={7}>
                 <Component {...pageProps} />
               </Grid>
               <Grid item>
                 <Divider orientation='vertical' lg={1} />
               </Grid>
-              <Grid item xs={12} lg={2} container justify='center'>
+              <Grid item xs={12} lg={3} container justify='center'>
                 <FeaturedPosts />
               </Grid>
             </Grid>

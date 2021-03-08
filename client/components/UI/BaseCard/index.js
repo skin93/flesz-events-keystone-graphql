@@ -20,11 +20,9 @@ const BaseCard = ({ post }) => {
           title={post.title}
           alt={post.title}
         />
-        <Link href={`/categories/${post.category.slug}`}>
-          <a>
-            <Chip label={post.category.name} className={classes.chip} />
-          </a>
-        </Link>
+
+        <Chip label={post.category.name} className={classes.chip} />
+
         <CardContent className={classes.content}>
           <Typography
             gutterBottom
@@ -52,7 +50,7 @@ export default BaseCard
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    height: 'auto',
+    height: 350,
     position: 'relative',
     borderRadius: '10px'
   },
@@ -72,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer'
   },
   media: {
-    height: 150,
+    height: 200,
     [theme.breakpoints.down('sm')]: {
       height: 200
     }
@@ -83,11 +81,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     backgroundColor: theme.palette.background.main,
     width: '100%',
-    height: '100%',
+    height: 150,
     opacity: 0.8
   },
   title: {
     fontWeight: 'bold',
+    // fontSize: '0.8vw',
     color: theme.palette.light.main,
     [theme.breakpoints.down('sm')]: {
       fontSize: '1.2rem'

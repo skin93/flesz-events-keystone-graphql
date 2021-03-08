@@ -16,8 +16,8 @@ const theme = createMuiTheme({
             top: '50%',
             left: '50%',
             transform: 'translate(-50%,-50%)',
-            width: '100%',
-            height: '100%'
+            width: '80%',
+            height: '80%'
           }
         },
         body: {
@@ -26,25 +26,25 @@ const theme = createMuiTheme({
           backgroundColor: 'rgb(36,36,36)'
         },
         blockquote: {
-          background: `rgba(179, 179, 179, 0.1)`,
+          position: 'relative',
+          '&:before': {
+            content: 'open-quote',
+            position: 'absolute',
+            top: 30,
+            left: -10,
+            fontSize: '4em',
+            color: '#32e0c4'
+          },
+          // background: `rgba(179, 179, 179, 0.1)`,
+          backgroundColor: 'transparent',
           color: `rgba(255, 255, 255, 0.9)`,
           padding: `30px`,
           lineHeight: `2em`,
           margin: `30px auto`,
-          width: `100%`,
-          borderLeft: `5px solid #32e0c4`,
+          width: `80%`,
+          // borderLeft: `5px solid #32e0c4`,
           fontSize: `1.2rem`
         },
-        // iframe: {
-        //   position: `relative`,
-        //   left: `50%`,
-        //   transform: `translateX(-50%)`,
-        //   width: '90%',
-        //   maxWidth: `560px`,
-        //   maxHeight: '315px',
-        //   height: '315px',
-        //   margin: `30px 0`
-        // },
         h2: {
           color: `#eee`,
           fontSize: `2rem`
