@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }) {
               <Grid item>
                 <Divider orientation='vertical' lg={1} />
               </Grid>
-              <Grid item xs={12} lg={3} container justify='center'>
+              <Grid item xs={12} lg={4} container justify='center'>
                 <FeaturedPosts />
               </Grid>
             </Grid>
