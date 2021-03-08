@@ -44,15 +44,18 @@ export default function App({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <TheHeader />
-          <Container maxWidth='lg' style={{ marginTop: '30px' }}>
+          <Container
+            maxWidth='lg'
+            style={{ marginTop: '30px', minHeight: '100vh' }}
+          >
             <Grid container justify='space-around'>
-              <Grid item xs={12} lg={7}>
+              <Grid item xs={12} lg={8}>
                 <Component {...pageProps} />
               </Grid>
               <Grid item>
                 <Divider orientation='vertical' lg={1} />
               </Grid>
-              <Grid item xs={12} lg={4} container justify='center'>
+              <Grid item xs={12} lg={3} container justify='center'>
                 <FeaturedPosts />
               </Grid>
             </Grid>
