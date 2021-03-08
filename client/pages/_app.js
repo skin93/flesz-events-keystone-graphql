@@ -2,10 +2,15 @@ import React from 'react'
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../lib/apolloClient'
+
+import theme from '../theme'
+
+import TheHeader from '../components/layout/TheHeader'
+import TheFooter from '../components/layout/TheFooter'
+
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import theme from '../theme'
-import TheHeader from '../components/layout/TheHeader'
+
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import FeaturedPosts from '../components/layout/FeaturedPosts'
@@ -52,6 +57,7 @@ export default function App({ Component, pageProps }) {
               </Grid>
             </Grid>
           </Container>
+          <TheFooter />
         </ThemeProvider>
       </ApolloProvider>
     </React.Fragment>
