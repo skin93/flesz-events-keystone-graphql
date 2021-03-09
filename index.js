@@ -7,17 +7,14 @@ const { GraphQLApp } = require('@keystonejs/app-graphql')
 const { AdminUIApp } = require('@keystonejs/app-admin-ui')
 const { NextApp } = require('@keystonejs/app-next')
 const { StaticApp } = require('@keystonejs/app-static')
-// const initialiseData = require('./initial-data')
 
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose')
-const PROJECT_NAME = process.env.PROJECT_NAME
+const PROJECT_NAME = 'Flesz.Events'
 const adapterConfig = { mongoUri: process.env.MONGO_URI }
 
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
   cookieSecret: process.env.COOKIE_SECRET
-
-  // onConnect: process.env.CREATE_TABLES !== 'true' && initialiseData
 })
 
 const isAdmin = ({ authentication: { item: user } }) => {
