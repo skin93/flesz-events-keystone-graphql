@@ -16,7 +16,9 @@ import Divider from '@material-ui/core/Divider'
 
 import { useQuery } from '@apollo/client'
 import { SINGLE_POST_QUERY } from '../../lib/queries/posts/singlePostQuery'
+
 import SEO from '../../components/SEO'
+import Disqus from '../../components/Disqus'
 
 const PostPage = () => {
   const classes = useStyles()
@@ -125,6 +127,7 @@ const PostPage = () => {
               <Divider />
             </Grid>
           </Grid>
+          <Disqus post={post} />
         </article>
       )}
     </Fade>
