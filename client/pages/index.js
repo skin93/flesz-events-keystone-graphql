@@ -35,7 +35,7 @@ const HomePage = () => {
       <SEO />
       <Fade in={true} timeout={500}>
         <main className={classes.root}>
-          <Typography variant='h6' className={classes.heading}>
+          <Typography variant='h6' component='h1' className={classes.heading}>
             OSTATNIE WPISY
           </Typography>
           {loading ? (

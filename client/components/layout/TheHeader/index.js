@@ -65,7 +65,7 @@ const TheHeader = (props) => {
               <Hidden smDown>
                 <List
                   component='nav'
-                  aria-labelledby='main navigation'
+                  aria-label='main-navigation'
                   className={classes.navDisplayFlex}
                 >
                   {navLinks.map(({ title, path }) => (

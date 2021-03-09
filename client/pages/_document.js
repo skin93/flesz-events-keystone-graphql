@@ -32,7 +32,7 @@ class MyDocument extends Document {
   render() {
     const { isProduction } = this.props
     return (
-      <Html>
+      <Html lang='pl'>
         <Head />
         {isProduction && (
           <>

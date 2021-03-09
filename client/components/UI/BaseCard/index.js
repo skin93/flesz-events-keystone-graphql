@@ -14,7 +14,6 @@ const BaseCard = ({ post }) => {
     <Card className={classes.root}>
       <CardActionArea className={classes.actionsArea}>
         <CardMedia
-          component='img'
           className={classes.media}
           image={post.cover_url}
           title={post.title}
@@ -71,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 200,
+    width: '100%',
     [theme.breakpoints.down('sm')]: {
       height: 200
     }
