@@ -60,9 +60,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     height: 100,
-    backgroundColor: theme.palette.background.main,
-
-    opacity: 0.8
+    backgroundColor: theme.palette.background.main
   },
   title: {
     fontWeight: 'bold',
