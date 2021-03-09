@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import Router from 'next/router'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../lib/apolloClient'
 
@@ -15,6 +16,10 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import FeaturedPosts from '../components/layout/FeaturedPosts'
 import Divider from '@material-ui/core/Divider'
+
+import * as gtag from '../lib/gtag'
+
+Router.events.on('routeChangeComplete', (url) => gtag.pageview(url))
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)

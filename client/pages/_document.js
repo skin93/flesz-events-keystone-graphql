@@ -1,6 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 
+import { GA_TRACKING_ID } from '../lib/gtag'
+
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     // Render app and page and get the context of the page with collected side effects.
@@ -14,8 +16,11 @@ class MyDocument extends Document {
 
     const initialProps = await Document.getInitialProps(ctx)
 
+    const isProduction = process.env.NODE_ENV === 'production'
+
     return {
       ...initialProps,
+      isProduction,
       // Styles fragment is rendered after the app and page rendering finish.
       styles: [
         ...React.Children.toArray(initialProps.styles),
@@ -25,9 +30,31 @@ class MyDocument extends Document {
   }
 
   render() {
+    const { isProduction } = this.props
     return (
       <Html>
         <Head />
+        {isProduction && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', '${GA_TRACKING_ID}', {
+                      page_path: window.location.pathname,
+                    });
+                  `
+              }}
+            />
+          </>
+        )}
         <body>
           <Main />
           <NextScript />
