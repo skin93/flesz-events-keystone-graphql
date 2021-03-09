@@ -14,7 +14,7 @@ import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 
 import SkeletonCard from '../../components/UI/SkeletonCard'
-import { SpaOutlined } from '@material-ui/icons'
+import SEO from '../../components/SEO'
 
 const TagsPage = () => {
   const [skip, setSkip] = React.useState(0)
@@ -50,6 +50,7 @@ const TagsPage = () => {
           </Grid>
         ) : (
           <React.Fragment>
+            <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
             <Grid container spacing={2} className={classes.container}>
               {data.allTags.map((tag) => (
                 <Fade key={tag.slug} in={true} timeout={500}>

@@ -16,6 +16,7 @@ import Divider from '@material-ui/core/Divider'
 
 import { useQuery } from '@apollo/client'
 import { SINGLE_POST_QUERY } from '../../lib/queries/posts/singlePostQuery'
+import SEO from '../../components/SEO'
 
 const PostPage = () => {
   const classes = useStyles()
@@ -47,6 +48,11 @@ const PostPage = () => {
         </div>
       ) : (
         <article className={classes.root}>
+          <SEO
+            title={post.title}
+            description={post.excerpt}
+            image={post.cover_url}
+          />
           <Box component='div' className={classes.chips}>
             <Link href={`/categories/${post.category.slug}`}>
               <a>

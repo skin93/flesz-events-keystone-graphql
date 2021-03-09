@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Error from '../../components/Error'
+import SEO from '../../components/SEO'
 import BaseCard from '../../components/UI/BaseCard'
 import SkeletonCard from '../../components/UI/SkeletonCard'
 
@@ -28,6 +29,7 @@ const TagPage = () => {
   if (res1.error || res2.error) {
     return <Error message='Can not fetch data' />
   }
+
   return (
     <Fade in={true} timeout={500}>
       <main className={classes.root}>
@@ -43,6 +45,10 @@ const TagPage = () => {
           </Grid>
         ) : (
           <React.Fragment>
+            <SEO
+              title={res2.data.allTags[0].name}
+              decription={res2.data.allTags[0].description}
+            />
             <Typography variant='h6' className={classes.heading}>
               <span>#</span>
               {res2.data.allTags[0].name}

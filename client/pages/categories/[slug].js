@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Error from '../../components/Error'
 import BaseCard from '../../components/UI/BaseCard'
 import SkeletonCard from '../../components/UI/SkeletonCard'
+import SEO from '../../components/SEO'
 
 const CategoryPage = () => {
   const router = useRouter()
@@ -44,6 +45,10 @@ const CategoryPage = () => {
           </Grid>
         ) : (
           <React.Fragment>
+            <SEO
+              title={res2.data.allCategories[0].name}
+              description={res2.data.allCategories[0].description}
+            />
             <Typography variant='h6' className={classes.heading}>
               <span>#</span>
               {res2.data.allCategories[0].name}
