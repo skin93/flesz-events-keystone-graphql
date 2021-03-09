@@ -19,23 +19,27 @@ const BaseCard = ({ post }) => {
           title={post.title}
           alt={post.title}
         />
-
-        <Chip label={post.category.name} className={classes.chip} />
-
         <CardContent className={classes.content}>
+          <Link href={`/categories/${post.category.slug}`}>
+            <a>
+              <Typography
+                gutterBottom
+                variant='button'
+                className={classes.category}
+              >
+                {post.category.name}
+              </Typography>
+            </a>
+          </Link>
           <Typography
-            gutterBottom
+            // gutterBottom
             variant='subtitle1'
             component='h2'
             className={classes.title}
           >
             {post.title}
           </Typography>
-          <Typography
-            variant='subtitle2'
-            component='p'
-            className={classes.created}
-          >
+          <Typography variant='caption' className={classes.created}>
             {post.createdAt.split('T')[0]}
           </Typography>
         </CardContent>
@@ -56,21 +60,15 @@ const useStyles = makeStyles((theme) => ({
   actionsArea: {
     height: '100%'
   },
-  chip: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
+  category: {
     fontWeight: 'bold',
     textTransform: 'uppercase',
     fontSize: '.8em',
-    backgroundColor: theme.palette.accent.main,
-    color: theme.palette.black.main,
-    borderRadius: '10px 0px 0px 0px',
+    color: theme.palette.accent.main,
     cursor: 'pointer'
   },
   media: {
     height: 200,
-    width: '100%',
     [theme.breakpoints.down('sm')]: {
       height: 200
     }
@@ -78,19 +76,16 @@ const useStyles = makeStyles((theme) => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     backgroundColor: theme.palette.background.main,
     width: '100%',
-    height: 150,
-    opacity: 0.8
+    height: 150
   },
   title: {
     fontWeight: 'bold',
-    // fontSize: '0.8vw',
-    color: theme.palette.light.main,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '1.2rem'
-    }
+    fontSize: 'calc(1.2em + 0.1vw)',
+    color: theme.palette.light.main
   },
   created: {
     color: theme.palette.muted.main,
