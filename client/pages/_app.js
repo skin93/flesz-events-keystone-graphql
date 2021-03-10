@@ -16,9 +16,6 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import FeaturedPosts from '../components/layout/FeaturedPosts'
-import Divider from '@material-ui/core/Divider'
 
 import * as gtag from '../lib/gtag'
 
@@ -56,7 +53,8 @@ export default function App({ Component, pageProps }) {
             <CssBaseline />
             <TheHeader />
             <Container
-              component={motion.div}
+              maxWidth='lg'
+              component={motion.main}
               transition={{
                 type: 'spring',
                 damping: 20,
@@ -67,24 +65,13 @@ export default function App({ Component, pageProps }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              maxWidth='lg'
               style={{
-                marginTop: '30px',
+                margin: '30px auto',
                 minHeight: '100vh',
                 overflow: 'hidden'
               }}
             >
-              <Grid container justify='space-between'>
-                <Grid item xs={12} lg={8}>
-                  <Component {...pageProps} />
-                </Grid>
-                <Grid item>
-                  <Divider orientation='vertical' lg={1} />
-                </Grid>
-                <Grid item xs={12} lg={3} container justify='center'>
-                  <FeaturedPosts />
-                </Grid>
-              </Grid>
+              <Component {...pageProps} />
             </Container>
             <TheFooter />
           </ThemeProvider>
