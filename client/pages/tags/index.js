@@ -34,10 +34,8 @@ const TagsPage = () => {
   }
 
   return (
-    <main className={classes.root}>
-      <Typography variant='h6' className={classes.heading}>
-        TAGI
-      </Typography>
+    <section className={classes.root} aria-label='tags-page'>
+      <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
       {loading ? (
         <Grid
           container
@@ -73,7 +71,9 @@ const TagsPage = () => {
         </Grid>
       ) : (
         <React.Fragment>
-          <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
+          <Typography variant='h6' className={classes.heading}>
+            TAGI
+          </Typography>
           <Grid
             container
             spacing={2}
@@ -123,7 +123,7 @@ const TagsPage = () => {
           </Button>
         </React.Fragment>
       )}
-    </main>
+    </section>
   )
 }
 

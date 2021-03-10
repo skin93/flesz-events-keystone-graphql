@@ -41,7 +41,7 @@ const TheHeader = (props) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <React.Fragment>
       <HideOnScroll {...props}>
         <AppBar position='fixed' className={classes.appBar}>
           <Toolbar variant='dense' id='back-to-top-anchor'>
@@ -87,16 +87,13 @@ const TheHeader = (props) => {
         </AppBar>
       </HideOnScroll>
       <div className={classes.offset} />
-    </div>
+    </React.Fragment>
   )
 }
 
 export default TheHeader
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1
-  },
   appBar: {
     backgroundColor: theme.palette.black.main
   },

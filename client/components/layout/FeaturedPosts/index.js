@@ -23,7 +23,7 @@ const FeaturedPosts = () => {
   }
 
   return (
-    <aside className={classes.root} aria-label='featured-posts'>
+    <section className={classes.root} aria-label='featured-posts'>
       <Typography variant='h6' component='h1' className={classes.heading}>
         ZOBACZ TAKŻE
       </Typography>
@@ -44,7 +44,7 @@ const FeaturedPosts = () => {
           </Grid>
         ))}
       </Grid>
-    </aside>
+    </section>
   )
 }
 

@@ -33,7 +33,7 @@ const CategoryPage = () => {
   }
 
   return (
-    <main className={classes.root}>
+    <section className={classes.root} aria-label='category-page'>
       {res1.loading || res2.loading ? (
         <Grid
           container
@@ -102,7 +102,6 @@ const CategoryPage = () => {
                 xs={12}
                 sm={6}
                 md={4}
-                lg={6}
                 component={motion.div}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -118,7 +117,7 @@ const CategoryPage = () => {
           </Grid>
         </React.Fragment>
       )}
-    </main>
+    </section>
   )
 }
 

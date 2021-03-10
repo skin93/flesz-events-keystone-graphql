@@ -32,7 +32,7 @@ const TagPage = () => {
   }
 
   return (
-    <main className={classes.root}>
+    <section className={classes.root} aria-label='tag-page'>
       {res1.loading || res2.loading ? (
         <Grid
           container
@@ -57,7 +57,6 @@ const TagPage = () => {
               xs={12}
               sm={6}
               md={4}
-              lg={6}
               component={motion.div}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -101,7 +100,6 @@ const TagPage = () => {
                 xs={12}
                 sm={6}
                 md={4}
-                lg={6}
                 component={motion.div}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -117,7 +115,7 @@ const TagPage = () => {
           </Grid>
         </React.Fragment>
       )}
-    </main>
+    </section>
   )
 }
 

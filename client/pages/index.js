@@ -57,13 +57,40 @@ const HomePage = () => {
   }
 
   return (
-    <React.Fragment>
+    <section className={classes.root} aria-label='home-page'>
       <SEO />
-      <main className={classes.root}>
-        <Typography variant='h6' component='h1' className={classes.heading}>
-          OSTATNIE WPISY
-        </Typography>
-        {loading ? (
+      <Typography variant='h6' component='h1' className={classes.heading}>
+        OSTATNIE WPISY
+      </Typography>
+      {loading ? (
+        <Grid
+          container
+          spacing={2}
+          className={classes.container}
+          component={motion.div}
+          initial='hidden'
+          animate='visible'
+          exit='hidden'
+          variants={container}
+        >
+          {[0, 1, 2, 3, 4, 5].map((x) => (
+            <Grid
+              item
+              xs={12}
+              md={4}
+              key={x}
+              component={motion.div}
+              initial='hidden'
+              animate='visible'
+              exit='hidden'
+              variants={item}
+            >
+              <SkeletonCard />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <React.Fragment>
           <Grid
             container
             spacing={2}
@@ -74,68 +101,38 @@ const HomePage = () => {
             exit='hidden'
             variants={container}
           >
-            {[0, 1, 2, 3, 4, 5].map((x) => (
+            {data.allPosts.map((post) => (
               <Grid
                 item
+                key={post.id}
                 xs={12}
-                md={6}
-                key={x}
+                sm={6}
+                md={4}
                 component={motion.div}
                 initial='hidden'
                 animate='visible'
                 exit='hidden'
                 variants={item}
               >
-                <SkeletonCard />
+                <Link href={`/posts/${post.slug}`}>
+                  <a>
+                    <BaseCard post={post} />
+                  </a>
+                </Link>
               </Grid>
             ))}
           </Grid>
-        ) : (
-          <React.Fragment>
-            <Grid
-              container
-              spacing={2}
-              className={classes.container}
-              component={motion.div}
-              initial='hidden'
-              animate='visible'
-              exit='hidden'
-              variants={container}
-            >
-              {data.allPosts.map((post) => (
-                <Grid
-                  item
-                  key={post.id}
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={6}
-                  component={motion.div}
-                  initial='hidden'
-                  animate='visible'
-                  exit='hidden'
-                  variants={item}
-                >
-                  <Link href={`/posts/${post.slug}`}>
-                    <a>
-                      <BaseCard post={post} />
-                    </a>
-                  </Link>
-                </Grid>
-              ))}
-            </Grid>
-            <Button
-              onClick={handleClick}
-              variant='outlined'
-              className={classes.loadMoreButton}
-              disabled={data._allPostsMeta.count === data.allPosts.length}
-            >
-              Wczytaj więcej
-            </Button>
-          </React.Fragment>
-        )}
-      </main>
-    </React.Fragment>
+          <Button
+            onClick={handleClick}
+            variant='outlined'
+            className={classes.loadMoreButton}
+            disabled={data._allPostsMeta.count === data.allPosts.length}
+          >
+            Wczytaj więcej
+          </Button>
+        </React.Fragment>
+      )}
+    </section>
   )
 }
 
