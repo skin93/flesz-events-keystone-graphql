@@ -115,8 +115,8 @@ const TagPage = () => {
             ))}
           </Grid>
           <LoadMoreButton
-            items={data.allPosts}
-            meta={data._allPostsMeta}
+            items={res1.data.allPosts}
+            meta={res1.data._allPostsMeta}
             handleClick={handleClick}
           />
         </React.Fragment>
