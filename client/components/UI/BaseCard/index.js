@@ -20,19 +20,15 @@ const BaseCard = ({ post }) => {
           alt={post.title}
         />
         <CardContent className={classes.content}>
-          <Link href={`/categories/${post.category.slug}`}>
-            <a>
-              <Typography
-                gutterBottom
-                variant='button'
-                className={classes.category}
-              >
-                {post.category.name}
-              </Typography>
-            </a>
-          </Link>
           <Typography
-            // gutterBottom
+            gutterBottom
+            variant='button'
+            className={classes.category}
+          >
+            {post.category.name}
+          </Typography>
+
+          <Typography
             variant='subtitle1'
             component='h2'
             className={classes.title}
