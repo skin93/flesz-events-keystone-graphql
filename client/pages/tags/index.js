@@ -1,13 +1,14 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { motion } from 'framer-motion'
+
 import { useQuery } from '@apollo/client'
 import { ALL_TAGS_QUERY } from '../../lib/queries/tags/allTagsQuery'
 
 import Error from '../../components/Error'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import Fade from '@material-ui/core/Fade'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 
@@ -33,57 +34,96 @@ const TagsPage = () => {
   }
 
   return (
-    <Fade in={true} timeout={500}>
-      <main className={classes.root}>
-        <Typography variant='h6' className={classes.heading}>
-          TAGI
-        </Typography>
-        {loading ? (
-          <Grid container spacing={2} className={classes.container}>
-            {[0, 1, 2, 3, 4, 5].map((x, index) => (
-              <Fade key={index} in={true} timeout={500}>
-                <Grid xs={12} item md={6}>
-                  <SkeletonCard />
-                </Grid>
-              </Fade>
+    <main className={classes.root}>
+      <Typography variant='h6' className={classes.heading}>
+        TAGI
+      </Typography>
+      {loading ? (
+        <Grid
+          container
+          spacing={2}
+          className={classes.container}
+          component={motion.div}
+          transition={{
+            type: 'spring',
+            damping: 20,
+            stiffness: 100,
+            transition: {
+              delayChildren: 0.5
+            }
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {[0, 1, 2, 3, 4, 5].map((x) => (
+            <Grid
+              item
+              key={x}
+              xs={12}
+              md={6}
+              component={motion.div}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <SkeletonCard />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <React.Fragment>
+          <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
+          <Grid
+            container
+            spacing={2}
+            className={classes.container}
+            component={motion.div}
+            transition={{
+              type: 'spring',
+              damping: 20,
+              stiffness: 100,
+              transition: {
+                delayChildren: 0.5
+              }
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {data.allTags.map((tag) => (
+              <Grid
+                item
+                xs={6}
+                sm={4}
+                key={tag.id}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Link href={`/tags/${tag.slug}`}>
+                  <a>
+                    <Box component='div' className={classes.tagItem}>
+                      <span>#</span>
+                      <p>{tag.name}</p>
+                    </Box>
+                  </a>
+                </Link>
+              </Grid>
             ))}
           </Grid>
-        ) : (
-          <React.Fragment>
-            <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
-            <Grid container spacing={2} className={classes.container}>
-              {data.allTags.map((tag) => (
-                <Fade key={tag.slug} in={true} timeout={500}>
-                  <Grid
-                    item
-                    xs={6}
-                    sm={4}
-                    // className={classes.tagItem
-                  >
-                    <Link href={`/tags/${tag.slug}`}>
-                      <a>
-                        <Box component='div' className={classes.tagItem}>
-                          <span>#</span>
-                          <p>{tag.name}</p>
-                        </Box>
-                      </a>
-                    </Link>
-                  </Grid>
-                </Fade>
-              ))}
-            </Grid>
-            <Button
-              onClick={handleClick}
-              variant='outlined'
-              className={classes.loadMoreButton}
-              disabled={data._allTagsMeta.count === data.allTags.length}
-            >
-              Wczytaj więcej
-            </Button>
-          </React.Fragment>
-        )}
-      </main>
-    </Fade>
+          <Button
+            onClick={handleClick}
+            variant='outlined'
+            className={classes.loadMoreButton}
+            disabled={data._allTagsMeta.count === data.allTags.length}
+          >
+            Wczytaj więcej
+          </Button>
+        </React.Fragment>
+      )}
+    </main>
   )
 }
 

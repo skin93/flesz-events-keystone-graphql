@@ -14,6 +14,8 @@ import Box from '@material-ui/core/Box'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 
+import { motion } from 'framer-motion'
+
 import { useQuery } from '@apollo/client'
 import { SINGLE_POST_QUERY } from '../../lib/queries/posts/singlePostQuery'
 
@@ -36,9 +38,21 @@ const PostPage = () => {
   const post = data && data.allPosts[0]
 
   return (
-    <Fade in={true} timeout={500}>
+    <>
       {loading ? (
-        <div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            type: 'spring',
+            damping: 20,
+            stiffness: 100,
+            transition: {
+              delayChildren: 0.5
+            }
+          }}
+        >
           <Skeleton variant='rect' width={800} height={50} />
           <Skeleton variant='text' width={800} />
           <Skeleton variant='rect' width={800} />
@@ -47,9 +61,22 @@ const PostPage = () => {
           <Skeleton variant='text' width={800} />
           <Skeleton variant='rect' width={800} height={200} />
           <Skeleton variant='text' width={800} />
-        </div>
+        </motion.div>
       ) : (
-        <article className={classes.root}>
+        <motion.article
+          className={classes.root}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            type: 'spring',
+            damping: 20,
+            stiffness: 100,
+            transition: {
+              delayChildren: 10
+            }
+          }}
+        >
           <SEO
             title={post.title}
             description={post.excerpt}
@@ -128,9 +155,9 @@ const PostPage = () => {
             </Grid>
           </Grid>
           <Disqus post={post} />
-        </article>
+        </motion.article>
       )}
-    </Fade>
+    </>
   )
 }
 
