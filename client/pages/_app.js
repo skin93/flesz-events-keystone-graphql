@@ -1,6 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
+
+import { motion, AnimatePresence } from 'framer-motion'
+
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../lib/apolloClient'
 
@@ -22,6 +25,7 @@ import * as gtag from '../lib/gtag'
 Router.events.on('routeChangeComplete', (url) => gtag.pageview(url))
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter()
   const apolloClient = useApollo(pageProps.initialApolloState)
 
   React.useEffect(() => {
@@ -40,34 +44,52 @@ export default function App({ Component, pageProps }) {
           content='minimum-scale=1, initial-scale=1, width=device-width'
         />
         <link rel='preconnect' href='https://fonts.gstatic.com' />
+        <link rel='icon' href='favicon.ico' />
         <link
           href='https://fonts.googleapis.com/css2?family=Lato&display=swap'
           rel='stylesheet'
         />
       </Head>
-      <ApolloProvider client={apolloClient}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <TheHeader />
-          <Container
-            maxWidth='lg'
-            style={{ marginTop: '30px', minHeight: '100vh' }}
-          >
-            <Grid container justify='space-around'>
-              <Grid item xs={12} lg={8}>
-                <Component {...pageProps} />
+      <AnimatePresence exitBeforeEnter>
+        <ApolloProvider client={apolloClient}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <TheHeader />
+            <Container
+              component={motion.div}
+              transition={{
+                type: 'spring',
+                damping: 20,
+                stiffness: 100,
+                when: 'afterChildren'
+              }}
+              key={router.asPath}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              maxWidth='lg'
+              style={{
+                marginTop: '30px',
+                minHeight: '100vh',
+                overflow: 'hidden'
+              }}
+            >
+              <Grid container justify='space-between'>
+                <Grid item xs={12} lg={8}>
+                  <Component {...pageProps} />
+                </Grid>
+                <Grid item>
+                  <Divider orientation='vertical' lg={1} />
+                </Grid>
+                <Grid item xs={12} lg={3} container justify='center'>
+                  <FeaturedPosts />
+                </Grid>
               </Grid>
-              <Grid item>
-                <Divider orientation='vertical' lg={1} />
-              </Grid>
-              <Grid item xs={12} lg={3} container justify='center'>
-                <FeaturedPosts />
-              </Grid>
-            </Grid>
-          </Container>
-          <TheFooter />
-        </ThemeProvider>
-      </ApolloProvider>
+            </Container>
+            <TheFooter />
+          </ThemeProvider>
+        </ApolloProvider>
+      </AnimatePresence>
     </React.Fragment>
   )
 }
