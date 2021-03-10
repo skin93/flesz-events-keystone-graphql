@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -8,11 +9,9 @@ import { useQuery } from '@apollo/client'
 import { ALL_POSTS_BY_CATEGORY_QUERY } from '../../lib/queries/posts/allPostsByCategoryQuery'
 import { SINGLE_CATEGORY_QUERY } from '../../lib/queries/categories/singleCategoryQuery'
 
-import Typography from '@material-ui/core/Typography'
-import Fade from '@material-ui/core/Fade'
-import Grid from '@material-ui/core/Grid'
-
 import { makeStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 
 import Error from '../../components/Error'
 import BaseCard from '../../components/UI/BaseCard'
@@ -39,17 +38,10 @@ const CategoryPage = () => {
           container
           spacing={2}
           component={motion.div}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            type: 'spring',
-            damping: 20,
-            stiffness: 100,
-            transition: {
-              delayChildren: 0.5
-            }
-          }}
+          initial='hidden'
+          animate='visible'
+          exit='hidden'
+          variants={container}
         >
           {[0, 1, 2, 3, 4, 5].map((x) => (
             <Grid
@@ -58,11 +50,11 @@ const CategoryPage = () => {
               xs={12}
               sm={6}
               md={4}
-              lg={6}
               component={motion.div}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial='hidden'
+              animate='visible'
+              exit='hidden'
+              variants={item}
             >
               <SkeletonCard />
             </Grid>
@@ -83,17 +75,10 @@ const CategoryPage = () => {
             spacing={2}
             className={classes.container}
             component={motion.div}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              type: 'spring',
-              damping: 20,
-              stiffness: 100,
-              transition: {
-                delayChildren: 0.5
-              }
-            }}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+            variants={container}
           >
             {res1.data.allPosts.map((post) => (
               <Grid
@@ -103,9 +88,10 @@ const CategoryPage = () => {
                 sm={6}
                 md={4}
                 component={motion.div}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial='hidden'
+                animate='visible'
+                exit='hidden'
+                variants={item}
               >
                 <Link href={`/posts/${post.slug}`}>
                   <a>
@@ -138,3 +124,26 @@ const useStyles = makeStyles((theme) => ({
     marginTop: `30px`
   }
 }))
+
+const container = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100,
+    transition: {
+      delayChildren: 0.5
+    }
+  }
+}
+
+const item = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100
+  }
+}

@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Link from 'next/link'
 
 import { motion } from 'framer-motion'
@@ -6,17 +7,15 @@ import { motion } from 'framer-motion'
 import { useQuery } from '@apollo/client'
 import { ALL_POSTS_QUERY } from '../lib/queries/posts/allPostsQuery'
 
-import Error from '../components/Error'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import Fade from '@material-ui/core/Fade'
 import Grid from '@material-ui/core/Grid'
-
-import { makeStyles } from '@material-ui/core/styles'
 
 import BaseCard from '../components/UI/BaseCard'
 import SkeletonCard from '../components/UI/SkeletonCard'
 import SEO from '../components/SEO'
+import Error from '../components/Error'
 
 const HomePage = () => {
   const [skip, setSkip] = React.useState(0)
@@ -31,29 +30,6 @@ const HomePage = () => {
   }
   if (error) {
     return <Error message='Coś poszło nie tak :(' />
-  }
-
-  const container = {
-    visible: { opacity: 1 },
-    hidden: { opacity: 0 },
-    transition: {
-      type: 'spring',
-      damping: 20,
-      stiffness: 100,
-      transition: {
-        delayChildren: 0.5
-      }
-    }
-  }
-
-  const item = {
-    visible: { opacity: 1 },
-    hidden: { opacity: 0 },
-    transition: {
-      type: 'spring',
-      damping: 20,
-      stiffness: 100
-    }
   }
 
   return (
@@ -154,3 +130,26 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.accent.main
   }
 }))
+
+const container = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100,
+    transition: {
+      delayChildren: 0.5
+    }
+  }
+}
+
+const item = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100
+  }
+}

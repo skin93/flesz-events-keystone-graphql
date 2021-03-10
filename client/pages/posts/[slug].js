@@ -1,25 +1,24 @@
 import React from 'react'
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
 import Image from 'next/image'
-
-import Skeleton from '@material-ui/lab/Skeleton'
-
-import { makeStyles } from '@material-ui/core/styles'
-
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import Chip from '@material-ui/core/Chip'
-import Divider from '@material-ui/core/Divider'
-
-import FeaturedPosts from '../../components/layout/FeaturedPosts'
 
 import { motion } from 'framer-motion'
 
 import { useQuery } from '@apollo/client'
 import { SINGLE_POST_QUERY } from '../../lib/queries/posts/singlePostQuery'
 
+import { makeStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
+import Chip from '@material-ui/core/Chip'
+import Divider from '@material-ui/core/Divider'
+import Skeleton from '@material-ui/lab/Skeleton'
+
+import FeaturedPosts from '../../components/layout/FeaturedPosts'
 import SEO from '../../components/SEO'
 import Disqus from '../../components/Disqus'
 
@@ -39,34 +38,13 @@ const PostPage = () => {
   const post = data && data.allPosts[0]
 
   return (
-    <motion.section
-      aria-label='article-page'
-      className={classes.root}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{
-        type: 'spring',
-        damping: 20,
-        stiffness: 100,
-        transition: {
-          delayChildren: 10
-        }
-      }}
-    >
+    <motion.section aria-label='article-page' className={classes.root}>
       {loading ? (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            type: 'spring',
-            damping: 20,
-            stiffness: 100,
-            transition: {
-              delayChildren: 0.5
-            }
-          }}
+          initial='hidden'
+          animate='visible'
+          exit='hidden'
+          variants={container}
         >
           <Skeleton variant='rect' width={800} height={50} />
           <Skeleton variant='text' width={800} />
@@ -85,7 +63,16 @@ const PostPage = () => {
             image={post.cover_url}
           />
           <Grid container justify='space-between'>
-            <Grid item xs={12} lg={8} component='article'>
+            <Grid
+              item
+              xs={12}
+              lg={8}
+              component='article'
+              initial='hidden'
+              animate='visible'
+              exit='hidden'
+              variants={item}
+            >
               <Box component='div' className={classes.chips}>
                 <Link href={`/categories/${post.category.slug}`}>
                   <a>
@@ -173,6 +160,10 @@ const PostPage = () => {
               container
               justify='center'
               component='aside'
+              initial='hidden'
+              animate='visible'
+              exit='hidden'
+              variants={item}
             >
               <FeaturedPosts />
             </Grid>
@@ -244,3 +235,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.muted.main
   }
 }))
+
+const container = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100,
+    transition: {
+      delayChildren: 0.5
+    }
+  }
+}
+
+const item = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100
+  }
+}

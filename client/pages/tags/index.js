@@ -6,16 +6,15 @@ import { motion } from 'framer-motion'
 import { useQuery } from '@apollo/client'
 import { ALL_TAGS_QUERY } from '../../lib/queries/tags/allTagsQuery'
 
-import Error from '../../components/Error'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 
-import { makeStyles } from '@material-ui/core/styles'
-
 import SkeletonCard from '../../components/UI/SkeletonCard'
 import SEO from '../../components/SEO'
+import Error from '../../components/Error'
 
 const TagsPage = () => {
   const [skip, setSkip] = React.useState(0)
@@ -42,28 +41,22 @@ const TagsPage = () => {
           spacing={2}
           className={classes.container}
           component={motion.div}
-          transition={{
-            type: 'spring',
-            damping: 20,
-            stiffness: 100,
-            transition: {
-              delayChildren: 0.5
-            }
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          variants={container}
+          initial='hidden'
+          animate='visible'
+          exit='hidden'
         >
           {[0, 1, 2, 3, 4, 5].map((x) => (
             <Grid
               item
               key={x}
-              xs={12}
-              md={6}
+              xs={6}
+              sm={4}
               component={motion.div}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              variants={item}
+              initial='hidden'
+              animate='visible'
+              exit='hidden'
             >
               <SkeletonCard />
             </Grid>
@@ -79,17 +72,10 @@ const TagsPage = () => {
             spacing={2}
             className={classes.container}
             component={motion.div}
-            transition={{
-              type: 'spring',
-              damping: 20,
-              stiffness: 100,
-              transition: {
-                delayChildren: 0.5
-              }
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={container}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
           >
             {data.allTags.map((tag) => (
               <Grid
@@ -98,9 +84,10 @@ const TagsPage = () => {
                 sm={4}
                 key={tag.id}
                 component={motion.div}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                variants={item}
+                initial='hidden'
+                animate='visible'
+                exit='hidden'
               >
                 <Link href={`/tags/${tag.slug}`}>
                   <a>
@@ -161,3 +148,26 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 }))
+
+const container = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100,
+    transition: {
+      delayChildren: 0.5
+    }
+  }
+}
+
+const item = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+  transition: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 100
+  }
+}
