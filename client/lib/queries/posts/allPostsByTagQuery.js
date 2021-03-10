@@ -4,6 +4,7 @@ export const ALL_POSTS_BY_TAG_QUERY = gql`
     allPosts(
       where: { AND: [{ tags_some: { slug: $slug }, status: PUBLISHED }] }
     ) {
+      id
       title
       slug
       cover_url
