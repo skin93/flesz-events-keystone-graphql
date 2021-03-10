@@ -118,7 +118,7 @@ const PostPage = () => {
                 className={classes.excerpt}
                 aria-label='article-excerpt'
               >
-                post.excerpt
+                {post.excerpt}
               </Typography>
 
               <Grid container>
