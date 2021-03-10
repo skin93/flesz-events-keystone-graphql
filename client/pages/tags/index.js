@@ -8,28 +8,33 @@ import { ALL_TAGS_QUERY } from '../../lib/queries/tags/allTagsQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 
 import SkeletonCard from '../../components/UI/SkeletonCard'
 import SEO from '../../components/SEO'
-import Error from '../../components/Error'
+import LoadMoreButton from '../../components/UI/LoadMoreButton'
 
 const TagsPage = () => {
+  const classes = useStyles()
+
   const [skip, setSkip] = React.useState(0)
   const [first, setFirst] = React.useState(6)
-  const { loading, error, data } = useQuery(ALL_TAGS_QUERY, {
-    variables: { skip, first }
-  })
-  const classes = useStyles()
 
   const handleClick = () => {
     setFirst((prev) => prev + 6)
   }
 
+  const { loading, error, data } = useQuery(ALL_TAGS_QUERY, {
+    variables: { skip, first }
+  })
+
   if (error) {
-    return <Error message='Coś poszło nie tak :(' />
+    return (
+      <div>
+        <p>Coś poszło nie tak...</p>
+      </div>
+    )
   }
 
   return (
@@ -100,14 +105,11 @@ const TagsPage = () => {
               </Grid>
             ))}
           </Grid>
-          <Button
-            onClick={handleClick}
-            variant='outlined'
-            className={classes.loadMoreButton}
-            disabled={data._allTagsMeta.count === data.allTags.length}
-          >
-            Wczytaj więcej
-          </Button>
+          <LoadMoreButton
+            handleClick={handleClick}
+            meta={data._allTagsMeta}
+            items={data.allTags}
+          />
         </React.Fragment>
       )}
     </section>
@@ -124,12 +126,6 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     marginTop: `30px`
-  },
-  loadMoreButton: {
-    display: 'block',
-    margin: '30px auto',
-    fontWeight: 'bold',
-    color: theme.palette.accent.main
   },
   tagItem: {
     display: 'flex',

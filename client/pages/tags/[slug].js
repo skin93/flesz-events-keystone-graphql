@@ -16,19 +16,32 @@ import Grid from '@material-ui/core/Grid'
 import SEO from '../../components/SEO'
 import BaseCard from '../../components/UI/BaseCard'
 import SkeletonCard from '../../components/UI/SkeletonCard'
-import Error from '../../components/Error'
+import LoadMoreButton from '../../components/UI/LoadMoreButton'
 
 const TagPage = () => {
+  const classes = useStyles()
+
+  const [skip, setSkip] = React.useState(0)
+  const [first, setFirst] = React.useState(4)
+
+  const handleClick = () => {
+    setFirst((prev) => prev + 4)
+  }
+
   const router = useRouter()
   const { slug } = router.query
 
-  const res1 = useQuery(ALL_POSTS_BY_TAG_QUERY, { variables: { slug } })
+  const res1 = useQuery(ALL_POSTS_BY_TAG_QUERY, {
+    variables: { slug, skip, first }
+  })
   const res2 = useQuery(SINGLE_TAG_QUERY, { variables: { slug } })
 
-  const classes = useStyles()
-
   if (res1.error || res2.error) {
-    return <Error message='Can not fetch data' />
+    return (
+      <div>
+        <p>Coś poszło nie tak...</p>
+      </div>
+    )
   }
 
   return (
@@ -101,6 +114,11 @@ const TagPage = () => {
               </Grid>
             ))}
           </Grid>
+          <LoadMoreButton
+            items={data.allPosts}
+            meta={data._allPostsMeta}
+            handleClick={handleClick}
+          />
         </React.Fragment>
       )}
     </section>
@@ -122,6 +140,12 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     marginTop: `30px`
+  },
+  loadMoreButton: {
+    display: 'block',
+    margin: '30px auto',
+    fontWeight: 'bold',
+    color: theme.palette.accent.main
   }
 }))
 

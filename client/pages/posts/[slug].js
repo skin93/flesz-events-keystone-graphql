@@ -24,6 +24,7 @@ import Disqus from '../../components/Disqus'
 
 const PostPage = () => {
   const classes = useStyles()
+
   const router = useRouter()
   const { slug } = router.query
 
@@ -32,7 +33,11 @@ const PostPage = () => {
   })
 
   if (error) {
-    return <Error message='Can not fetch data' />
+    return (
+      <div>
+        <p>Coś poszło nie tak...</p>
+      </div>
+    )
   }
 
   const post = data && data.allPosts[0]
