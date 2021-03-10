@@ -14,7 +14,8 @@ const adapterConfig = { mongoUri: process.env.MONGO_URI }
 
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
-  cookieSecret: process.env.COOKIE_SECRET
+  cookieSecret: process.env.COOKIE_SECRET,
+  secureCookies: process.env.NODE_ENV === 'production'
 })
 
 const isAdmin = ({ authentication: { item: user } }) => {
@@ -124,5 +125,8 @@ module.exports = {
       src: './images'
     }),
     new NextApp({ dir: 'client' })
-  ]
+  ],
+  configureExpress: (app) => {
+    app.set('trust proxy', true)
+  }
 }
