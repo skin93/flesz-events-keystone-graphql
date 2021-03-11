@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ['localhost', 'flesz.events']
+    domains: ['localhost', 'test.flesz.events', 'flesz.events']
   }
 }
