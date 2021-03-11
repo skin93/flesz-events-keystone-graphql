@@ -32,7 +32,13 @@ const HomePage = () => {
 
   if (error) {
     return (
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         <p>Coś poszło nie tak...</p>
       </div>
     )

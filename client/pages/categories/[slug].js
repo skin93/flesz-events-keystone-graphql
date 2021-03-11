@@ -38,7 +38,13 @@ const CategoryPage = () => {
 
   if (res1.error || res2.error) {
     return (
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         <p>Coś poszło nie tak...</p>
       </div>
     )
