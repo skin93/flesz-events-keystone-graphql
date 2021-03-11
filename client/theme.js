@@ -4,6 +4,21 @@ const theme = createMuiTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
+        '.img-container': {
+          position: 'relative',
+          overflow: 'hidden',
+          width: '100%',
+          paddingTop: '56.25%',
+
+          '& img': {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%,-50%)',
+            width: '80%',
+            height: '80%'
+          }
+        },
         '.iframe-container': {
           position: 'relative',
           overflow: 'hidden',
