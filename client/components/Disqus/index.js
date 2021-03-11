@@ -5,7 +5,7 @@ const Disqus = ({ post }) => {
   const classes = useStyles()
   const disqusShortname = `${process.env.NEXT_PUBLIC_DISQUS_SHORTNAME}`
   const disqusConfig = {
-    url: `${process.env.NEXT_PUBLIC_APP_DOMAIN_PROD}/posts/${post.slug}`,
+    url: `${process.env.NEXT_PUBLIC_APP_DOMAIN}/posts/${post.slug}`,
     identifier: post.id,
     title: post.title
   }

@@ -113,10 +113,7 @@ const postFields = {
     cover_url: {
       type: Url,
       isUnique: true,
-      defaultValue:
-        process.env.NODE_ENV === 'production'
-          ? process.env.IMAGE_PATH_PROD
-          : process.env.IMAGE_PATH_DEV
+      defaultValue: process.env.IMAGE_PATH
     },
     cover_src: {
       type: Text,
