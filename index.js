@@ -2,7 +2,6 @@ const dotenv = require('dotenv').config()
 const { atTracking } = require('@keystonejs/list-plugins')
 const { Keystone } = require('@keystonejs/keystone')
 const { PasswordAuthStrategy } = require('@keystonejs/auth-password')
-const { Text, Checkbox, Password } = require('@keystonejs/fields')
 const { GraphQLApp } = require('@keystonejs/app-graphql')
 const { AdminUIApp } = require('@keystonejs/app-admin-ui')
 const { NextApp } = require('@keystonejs/app-next')
@@ -38,7 +37,13 @@ keystone.createList('Post', {
   plugins: [
     atTracking({
       createdAtField: 'createdAt',
-      updatedAtField: 'updatedAt'
+      updatedAtField: 'updatedAt',
+      format: 'dd-MM-yyyy HH:mm:ss',
+      access: {
+        read: true,
+        create: true,
+        update: true
+      }
     })
   ],
   access: {
