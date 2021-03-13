@@ -3,7 +3,7 @@ const { LocalFileAdapter } = require('@keystonejs/file-adapters')
 
 const fileAdapter = new LocalFileAdapter({
   path: '/images',
-  src: 'public/images',
+  src: './images',
   getFilename: ({ originalFilename }) => {
     return originalFilename
   }

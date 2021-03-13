@@ -127,7 +127,7 @@ module.exports = {
     }),
     new StaticApp({
       path: '/images',
-      src: 'public/images'
+      src: './images'
     }),
     new NextApp({ dir: 'client' })
   ],
