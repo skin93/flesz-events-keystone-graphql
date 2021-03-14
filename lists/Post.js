@@ -112,8 +112,7 @@ const postFields = {
     },
     cover_url: {
       type: Url,
-      isUnique: true,
-      defaultValue: process.env.IMAGE_PATH
+      isUnique: true
     },
     cover_src: {
       type: Text,
