@@ -49,7 +49,7 @@ const PostPage = () => {
   const post = data && data.allPosts[0]
 
   return (
-    <motion.section aria-label='article-page' className={classes.root}>
+    <motion.section aria-label='preview-page' className={classes.root}>
       {loading ? (
         <motion.div
           initial='hidden'
@@ -73,6 +73,44 @@ const PostPage = () => {
             description={post.excerpt}
             image={post.cover_url}
           />
+          <Box component='div' className={classes.chips}>
+            <Link href={`/categories/${post.category.slug}`}>
+              <a>
+                <Chip label={post.category.name} className={classes.category} />
+              </a>
+            </Link>
+            {post.tags.map((tag) => (
+              <Link key={tag.slug} href={`/tags/${tag.slug}`}>
+                <a>
+                  <Chip
+                    key={tag.name}
+                    label={tag.name}
+                    className={classes.tagItem}
+                  />
+                </a>
+              </Link>
+            ))}
+            <Chip
+              label={post.createdAt.split('T')[0]}
+              className={classes.createdAt}
+            />
+            {post.authors.map((author) => (
+              <Chip
+                label={<span>@{author.name}</span>}
+                key={author.name}
+                className={classes.author}
+              />
+            ))}
+          </Box>
+          <Typography
+            variant='h3'
+            component='h1'
+            aria-label='article-title'
+            className={classes.title}
+          >
+            {post.title}
+          </Typography>
+          <Divider className={classes.divider} />
           <Grid container justify='space-between'>
             <Grid
               item
@@ -84,54 +122,6 @@ const PostPage = () => {
               exit='hidden'
               variants={item}
             >
-              <Box component='div' className={classes.chips}>
-                <Link href={`/categories/${post.category.slug}`}>
-                  <a>
-                    <Chip
-                      label={post.category.name}
-                      className={classes.category}
-                    />
-                  </a>
-                </Link>
-                {post.tags.map((tag) => (
-                  <Link key={tag.slug} href={`/tags/${tag.slug}`}>
-                    <a>
-                      <Chip
-                        key={tag.name}
-                        label={tag.name}
-                        className={classes.tagItem}
-                      />
-                    </a>
-                  </Link>
-                ))}
-                <Chip
-                  label={post.createdAt.split('T')[0]}
-                  className={classes.createdAt}
-                />
-                {post.authors.map((author) => (
-                  <Chip
-                    label={<span>@{author.name}</span>}
-                    key={author.name}
-                    className={classes.author}
-                  />
-                ))}
-              </Box>
-              <Typography
-                variant='h3'
-                component='h1'
-                aria-label='article-title'
-                className={classes.title}
-              >
-                {post.title}
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                className={classes.excerpt}
-                aria-label='article-excerpt'
-              >
-                {post.excerpt}
-              </Typography>
-
               <Grid container>
                 <Grid item>
                   <Image
@@ -143,7 +133,6 @@ const PostPage = () => {
                     alt={post.title}
                     aria-label='article-cover'
                   />
-
                   <Typography
                     variant='caption'
                     className={classes.coverSrc}
@@ -151,19 +140,25 @@ const PostPage = () => {
                   >
                     {post.cover_src}
                   </Typography>
+                  <Typography
+                    variant='subtitle1'
+                    className={classes.excerpt}
+                    aria-label='article-excerpt'
+                  >
+                    {post.excerpt}
+                  </Typography>
+                  <Divider className={classes.divider} />
                   <Box
                     dangerouslySetInnerHTML={{ __html: post.body }}
                     className={classes.body}
                     aria-label='article-body'
                   />
-                  <Divider />
+                  <Divider className={classes.divider} />
                 </Grid>
               </Grid>
               <Disqus post={post} />
             </Grid>
-            <Grid item>
-              <Divider orientation='vertical' lg={1} />
-            </Grid>
+            <Grid item xs={12} lg={1} />
             <Grid
               item
               xs={12}
@@ -193,7 +188,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '15px'
   },
   chips: {
-    marginBottom: '30px'
+    margin: '0 0 30px 0'
   },
   title: {
     fontWeight: 'bold',
@@ -242,7 +237,7 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     margin: `30px 0`,
-    height: `5px`,
+    height: `3px`,
     backgroundColor: theme.palette.muted.main
   }
 }))
