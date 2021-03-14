@@ -196,7 +196,7 @@ const useStyles = makeStyles((theme) => ({
   },
   excerpt: {
     fontSize: 'calc(.7rem + .5vw)',
-    fontWeight: 100,
+    fontWeight: 'bold',
     color: theme.palette.light.main,
     margin: '30px 0'
   },
