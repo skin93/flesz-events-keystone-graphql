@@ -98,7 +98,8 @@ keystone.createList('User', {
 
 keystone.createList('Image', {
   fields: ImageSchema.fields,
-  labelResolver: (item) => item.image.filename,
+  labelResolver: (item) =>
+    `${item.image.filename} | ${item.image._meta.secure_url}`,
   access: {
     read: true,
     create: isLoggedIn,
