@@ -24,6 +24,7 @@
     "@keystonejs/app-static": "^5.2.0",
     "@keystonejs/auth-password": "^6.0.1",
     "@keystonejs/fields": "^22.0.0",
+    "@keystonejs/fields-cloudinary-image": "^2.2.0",
     "@keystonejs/fields-unsplash": "^3.3.0",
     "@keystonejs/fields-wysiwyg-tinymce": "^5.4.0",
     "@keystonejs/file-adapters": "^7.1.0",

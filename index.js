@@ -98,7 +98,7 @@ keystone.createList('User', {
 
 keystone.createList('Image', {
   fields: ImageSchema.fields,
-  labelResolver: (item) => item.file.filename,
+  labelResolver: (item) => item.image.filename,
   access: {
     read: true,
     create: isLoggedIn,
@@ -124,10 +124,6 @@ module.exports = {
       name: PROJECT_NAME,
       enableDefaultRoute: false,
       authStrategy
-    }),
-    new StaticApp({
-      path: '/images',
-      src: './images'
     }),
     new NextApp({ dir: 'client' })
   ],

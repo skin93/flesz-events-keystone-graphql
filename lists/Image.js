@@ -1,23 +1,22 @@
-const { File } = require('@keystonejs/fields')
-const { LocalFileAdapter } = require('@keystonejs/file-adapters')
+const { CloudinaryAdapter } = require('@keystonejs/file-adapters')
+const { CloudinaryImage } = require('@keystonejs/fields-cloudinary-image')
 
-const fileAdapter = new LocalFileAdapter({
-  path: '/images',
-  src: './images',
-  getFilename: ({ originalFilename }) => {
-    return originalFilename
-  }
+const fileAdapter = new CloudinaryAdapter({
+  cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+  apiKey: process.env.CLOUDINARY_KEY,
+  apiSecret: process.env.CLOUDINARY_SECRET,
+  folder: process.env.FOLDER_NAME
 })
 
 const imageFields = {
   fields: {
-    file: {
-      type: File,
+    image: {
+      type: CloudinaryImage,
       adapter: fileAdapter,
       hooks: {
         beforeChange: async ({ existingItem }) => {
-          if (existingItem && existingItem.file) {
-            await fileAdapter.delete(existingItem.file)
+          if (existingItem && existingItem.image) {
+            await fileAdapter.delete(existingItem.image)
           }
         }
       }
@@ -25,8 +24,8 @@ const imageFields = {
   },
   hooks: {
     afterDelete: async ({ existingItem }) => {
-      if (existingItem.file) {
-        await fileAdapter.delete(existingItem.file)
+      if (existingItem.image) {
+        await fileAdapter.delete(existingItem.image)
       }
     }
   }
