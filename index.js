@@ -34,18 +34,6 @@ const ImageSchema = require('./lists/Image')
 keystone.createList('Post', {
   fields: PostSchema.fields,
   labelResolver: (item) => item.title,
-  plugins: [
-    atTracking({
-      createdAtField: 'createdAt',
-      updatedAtField: 'updatedAt',
-      format: 'dd-MM-yyyy HH:mm:ss',
-      access: {
-        read: true,
-        create: true,
-        update: true
-      }
-    })
-  ],
   access: {
     read: true,
     create: isLoggedIn,

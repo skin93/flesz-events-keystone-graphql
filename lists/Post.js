@@ -5,7 +5,8 @@ const {
   Relationship,
   Slug,
   Checkbox,
-  Url
+  Url,
+  DateTime
 } = require('@keystonejs/fields')
 
 const postFields = {
@@ -145,7 +146,19 @@ const postFields = {
       many: true,
       isRequired: true
     },
-    isFeatured: { type: Checkbox, isRequired: true }
+    isFeatured: { type: Checkbox, isRequired: true },
+    createdAt: {
+      type: DateTime,
+      format: 'yyyy-MM-dd HH:mm',
+      yearRangeFrom: 2020,
+      yearPickerType: 'auto'
+    },
+    updatedAt: {
+      type: DateTime,
+      format: 'yyyy-MM-dd HH:mm',
+      yearRangeFrom: 2020,
+      yearPickerType: 'auto'
+    }
   }
 }
 
