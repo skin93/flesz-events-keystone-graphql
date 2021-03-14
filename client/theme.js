@@ -5,19 +5,11 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       '@global': {
         '.img-container': {
-          position: 'relative',
-          overflow: 'hidden',
-          width: '100%',
-          paddingTop: '56.25%',
-
-          '& img': {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%,-50%)',
-            width: '80%',
-            height: '80%'
-          }
+          margin: '30px 0'
+        },
+        '.img-responsive': {
+          width: '60%',
+          height: 'auto'
         },
         '.iframe-container': {
           position: 'relative',
