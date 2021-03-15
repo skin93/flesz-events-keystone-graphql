@@ -19,10 +19,10 @@ const TagsPage = () => {
   const classes = useStyles()
 
   const [skip, setSkip] = React.useState(0)
-  const [first, setFirst] = React.useState(6)
+  const [first, setFirst] = React.useState(24)
 
   const handleClick = () => {
-    setFirst((prev) => prev + 6)
+    setFirst((prev) => prev + 24)
   }
 
   const { loading, error, data } = useQuery(ALL_TAGS_QUERY, {

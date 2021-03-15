@@ -22,10 +22,10 @@ const CategoryPage = () => {
   const classes = useStyles()
 
   const [skip, setSkip] = React.useState(0)
-  const [first, setFirst] = React.useState(4)
+  const [first, setFirst] = React.useState(6)
 
   const handleClick = () => {
-    setFirst((prev) => prev + 4)
+    setFirst((prev) => prev + 6)
   }
 
   const router = useRouter()
