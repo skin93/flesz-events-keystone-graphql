@@ -115,7 +115,7 @@ const PreviewPage = () => {
             <Grid
               item
               xs={12}
-              lg={9}
+              lg={8}
               component='article'
               initial='hidden'
               animate='visible'
@@ -158,7 +158,7 @@ const PreviewPage = () => {
               </Grid>
               <Disqus post={post} />
             </Grid>
-
+            <Grid item xs={12} lg={1} />
             <Grid
               item
               xs={12}
@@ -198,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 'calc(.7rem + .5vw)',
     fontWeight: 'bold',
     color: theme.palette.light.main,
-    margin: '1px 0 30px 0'
+    margin: '30px 0'
   },
   coverSrc: {
     color: theme.palette.muted.main,
