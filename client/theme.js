@@ -35,7 +35,7 @@ const theme = createMuiTheme({
         blockquote: {
           fontWeight: 600,
           fontStyle: 'italic',
-          quotes: `"“" "”" "‘" "’"`,
+          quotes: `"“" "”"`,
           position: 'relative',
           '&::before': {
             content: 'open-quote',
@@ -70,10 +70,12 @@ const theme = createMuiTheme({
           color: `#eee`
         },
         ul: {
-          margin: `30px`
+          paddingLeft: '15px',
+          margin: '30px 0'
         },
         ol: {
-          margin: `30px`
+          paddingLeft: '15px',
+          margin: '30px 0'
         },
         li: {
           margin: `10px 0`,
