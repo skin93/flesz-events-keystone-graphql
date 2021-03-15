@@ -26,6 +26,7 @@ const postFields = {
     },
     body: {
       type: Wysiwyg,
+      isRequired: true,
       editorConfig: {
         selector: 'textarea#full-featured-non-premium',
         plugins:
@@ -113,7 +114,8 @@ const postFields = {
     },
     cover_url: {
       type: Url,
-      isUnique: true
+      isRequired: true,
+      isUnique: false
     },
     cover_src: {
       type: Text,
@@ -121,6 +123,7 @@ const postFields = {
     },
     status: {
       type: Select,
+      isRequired: true,
       options: [
         { value: 'PUBLISHED', label: 'Published' },
         { value: 'UNPUBLISHED', label: 'Unpublished' },
@@ -130,18 +133,21 @@ const postFields = {
     },
     authors: {
       type: Relationship,
+      isRequired: true,
       ref: 'User',
       many: true,
       isRequired: true
     },
     category: {
       type: Relationship,
+      isRequired: true,
       ref: 'Category',
       many: false,
       isRequired: true
     },
     tags: {
       type: Relationship,
+      isRequired,
       ref: 'Tag',
       many: true,
       isRequired: true
@@ -149,12 +155,14 @@ const postFields = {
     isFeatured: { type: Checkbox, isRequired: true },
     createdAt: {
       type: DateTime,
+      isRequired: true,
       format: 'yyyy-MM-dd HH:mm',
       yearRangeFrom: 2020,
       yearPickerType: 'auto'
     },
     updatedAt: {
       type: DateTime,
+      isRequired: true,
       format: 'yyyy-MM-dd HH:mm',
       yearRangeFrom: 2020,
       yearPickerType: 'auto'
