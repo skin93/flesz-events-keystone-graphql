@@ -147,7 +147,7 @@ const postFields = {
     },
     tags: {
       type: Relationship,
-      isRequired,
+      isRequired: true,
       ref: 'Tag',
       many: true,
       isRequired: true
