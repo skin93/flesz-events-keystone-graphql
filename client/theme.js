@@ -4,12 +4,12 @@ const theme = createMuiTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
-        '.img-container': {
-          margin: '30px 0'
-        },
-        '.img-responsive': {
-          width: '60%',
-          height: 'auto'
+        figure: {
+          margin: '30px 0',
+          '& img': {
+            width: '60%',
+            height: 'auto'
+          }
         },
         '.iframe-container': {
           position: 'relative',
@@ -105,7 +105,8 @@ const theme = createMuiTheme({
       darker: 'rgba(179, 179, 179, 0.1)'
     },
     background: {
-      main: 'rgb(36,36,36)'
+      main: 'rgb(36,36,36)',
+      lighter: 'rgb(40,40,40)'
     }
   },
   typography: {

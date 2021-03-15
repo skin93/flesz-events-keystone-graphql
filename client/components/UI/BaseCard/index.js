@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: theme.palette.background.main,
+    backgroundColor: theme.palette.background.lighter,
     width: '100%',
     height: 150
   },
