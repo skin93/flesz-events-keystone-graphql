@@ -5,6 +5,7 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       '@global': {
         figure: {
+          textAlign: 'center',
           margin: '30px 0',
           '& img': {
             width: '60%',
