@@ -5,6 +5,7 @@ export const ALL_POSTS_BY_TAG_QUERY = gql`
       where: { AND: [{ tags_some: { slug: $slug } }, { status: PUBLISHED }] }
       skip: $skip
       first: $first
+      sortBy: createdAt_DESC
     ) {
       id
       title

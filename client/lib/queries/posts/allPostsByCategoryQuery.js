@@ -5,6 +5,7 @@ export const ALL_POSTS_BY_CATEGORY_QUERY = gql`
       where: { AND: [{ category: { slug: $slug } }, { status: PUBLISHED }] }
       skip: $skip
       first: $first
+      sortBy: createdAt_DESC
     ) {
       id
       title
