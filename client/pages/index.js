@@ -132,12 +132,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: `30px`
   }
-  // loadMoreButton: {
-  //   display: 'block',
-  //   margin: '30px auto',
-  //   fontWeight: 'bold',
-  //   color: theme.palette.accent.main
-  // }
 }))
 
 const container = {
