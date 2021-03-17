@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 
@@ -35,7 +36,7 @@ class MyDocument extends Document {
       <Html lang='pl'>
         <Head />
         {isProduction && (
-          <>
+          <Fragment>
             <script
               async
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
@@ -53,7 +54,7 @@ class MyDocument extends Document {
                   `
               }}
             />
-          </>
+          </Fragment>
         )}
         <body>
           <Main />
