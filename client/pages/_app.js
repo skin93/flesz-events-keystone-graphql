@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -19,13 +19,25 @@ import Container from '@material-ui/core/Container'
 
 import * as gtag from '../lib/gtag'
 
-Router.events.on('routeChangeComplete', (url) => gtag.pageview(url))
+const isProduction = process.env.NODE_ENV === 'production'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
+
   const apolloClient = useApollo(pageProps.initialApolloState)
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      if (isProduction) gtag.pageview(url)
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
+
+  useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side')
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles)

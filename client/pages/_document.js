@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 
-import { GA_TRACKING_ID } from '../lib/gtag'
+// import { GA_TRACKING_ID } from '../lib/gtag'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -39,7 +39,7 @@ class MyDocument extends Document {
           <Fragment>
             <script
               async
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING}`}
             />
             <script
               dangerouslySetInnerHTML={{
@@ -47,8 +47,7 @@ class MyDocument extends Document {
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
-
-                    gtag('config', '${GA_TRACKING_ID}', {
+                    gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING}', {
                       page_path: window.location.pathname,
                     });
                   `
