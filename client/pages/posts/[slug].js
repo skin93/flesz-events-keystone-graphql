@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/client'
 import { SINGLE_POST_QUERY } from '../../lib/queries/posts/singlePostQuery'
 import Page from '../../components/Page'
+import SEO from '../../components/SEO'
 
 const PostPage = () => {
   const router = useRouter()
@@ -32,6 +33,11 @@ const PostPage = () => {
 
   return (
     <section aria-label='post-page' style={{ flexGrow: 1, padding: '15px' }}>
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        image={post.cover_url}
+      />
       <Page post={post} loading={loading} />
     </section>
   )

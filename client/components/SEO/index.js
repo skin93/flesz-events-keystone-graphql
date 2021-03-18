@@ -50,15 +50,11 @@ const SEO = ({ title, description, image }) => {
 
       <meta
         property='og:image'
-        content={
-          image ? image : 'https://flesz.events/images/logo-publikacja.png'
-        }
+        content={image ? image : 'https://flesz.events/logo-publikacja.png'}
       />
       <meta
         property='og:image:secure_url'
-        content={
-          image ? image : 'https://flesz.events/images/logo-publikacja.png'
-        }
+        content={image ? image : 'https://flesz.events/logo-publikacja.png'}
       />
       <meta property='og:image:type' content='image/png' />
       <meta property='fb:app_id' content={`${process.env.NEXT_PUBLIC_FB_ID}`} />

@@ -15,7 +15,6 @@ import Divider from '@material-ui/core/Divider'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 import FeaturedPosts from '../layout/FeaturedPosts'
-import SEO from '../SEO'
 import Disqus from '../Disqus'
 
 const Page = ({ post, loading }) => {
@@ -41,11 +40,6 @@ const Page = ({ post, loading }) => {
         </motion.div>
       ) : (
         <React.Fragment>
-          <SEO
-            title={post.title}
-            description={post.excerpt}
-            image={post.cover_url}
-          />
           <Box component='div' className={classes.chips}>
             <Link href={`/categories/${post.category.slug}`}>
               <a>
