@@ -64,22 +64,23 @@ const PostPage = () => {
     )
   }
 
-  const post = data && data.allPosts[0]
-
   return (
     <section aria-label='post-page' style={{ flexGrow: 1, padding: '15px' }}>
       <SEO
-        title={post.title}
-        description={post.excerpt}
-        image={post.cover_url}
+        title={data.allPosts[0].title}
+        description={data.allPosts[0].excerpt}
+        image={data.allPosts[0].cover_url}
       />
       <Box component='div' className={classes.chips}>
-        <Link href={`/categories/${post.category.slug}`}>
+        <Link href={`/categories/${data.allPosts[0].category.slug}`}>
           <a>
-            <Chip label={post.category.name} className={classes.category} />
+            <Chip
+              label={data.allPosts[0].category.name}
+              className={classes.category}
+            />
           </a>
         </Link>
-        {post.tags.map((tag) => (
+        {data.allPosts[0].tags.map((tag) => (
           <Link key={tag.slug} href={`/tags/${tag.slug}`}>
             <a>
               <Chip
@@ -91,10 +92,10 @@ const PostPage = () => {
           </Link>
         ))}
         <Chip
-          label={post.createdAt.split('T')[0]}
+          label={data.allPosts[0].createdAt.split('T')[0]}
           className={classes.createdAt}
         />
-        {post.authors.map((author) => (
+        {data.allPosts[0].authors.map((author) => (
           <Chip
             label={<span>@{author.name}</span>}
             key={author.name}
@@ -108,7 +109,7 @@ const PostPage = () => {
         aria-label='article-title'
         className={classes.title}
       >
-        {post.title}
+        {data.allPosts[0].title}
       </Typography>
       <Divider className={classes.divider} />
       <Grid container justify='space-between'>
@@ -125,12 +126,12 @@ const PostPage = () => {
           <Grid container>
             <Grid item>
               <Image
-                src={post.cover_url}
+                src={data.allPosts[0].cover_url}
                 width={800}
                 height={450}
                 quality={100}
                 layout='responsive'
-                alt={post.title}
+                alt={data.allPosts[0].title}
                 aria-label='article-cover'
               />
               <Typography
@@ -138,25 +139,25 @@ const PostPage = () => {
                 className={classes.coverSrc}
                 aria-label='article-cover-src'
               >
-                {post.cover_src}
+                {data.allPosts[0].cover_src}
               </Typography>
               <Typography
                 variant='subtitle1'
                 className={classes.excerpt}
                 aria-label='article-excerpt'
               >
-                {post.excerpt}
+                {data.allPosts[0].excerpt}
               </Typography>
               <Divider className={classes.divider} />
               <Box
-                dangerouslySetInnerHTML={{ __html: post.body }}
+                dangerouslySetInnerHTML={{ __html: data.allPosts[0].body }}
                 className={classes.body}
                 aria-label='article-body'
               />
               <Divider className={classes.divider} />
             </Grid>
           </Grid>
-          <Disqus post={post} />
+          <Disqus post={data.allPosts[0]} />
         </Grid>
         <Grid item xs={12} lg={1} />
         <Grid

@@ -84,16 +84,15 @@ const CategoryPage = () => {
     )
   }
 
-  const posts = res1.data?.allPosts
-  const meta = res1.data?._allPostsMeta
-  const category = res2.data?.allCategories[0]
-
   return (
     <section style={{ padding: '15px' }} aria-label='category-page'>
-      <SEO title={category.name} description={category.description} />
+      <SEO
+        title={res2.data.allCategories[0].name}
+        description={res2.data.allCategories[0].description}
+      />
       <Typography variant='h6' className={classes.heading}>
         <span>#</span>
-        {category.name}
+        {res2.data.allCategories[0].name}
       </Typography>
       <Grid
         container
@@ -105,7 +104,7 @@ const CategoryPage = () => {
         exit='hidden'
         variants={container}
       >
-        {posts.map((post) => (
+        {res1.data.allPosts.map((post) => (
           <Grid
             item
             key={post.id}
@@ -126,7 +125,11 @@ const CategoryPage = () => {
           </Grid>
         ))}
       </Grid>
-      <LoadMoreButton items={posts} meta={meta} handleClick={handleClick} />
+      <LoadMoreButton
+        items={res1.data.allPosts}
+        meta={res1.data._allPostsMeta}
+        handleClick={handleClick}
+      />
     </section>
   )
 }
