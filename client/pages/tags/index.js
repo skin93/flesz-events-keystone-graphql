@@ -43,81 +43,81 @@ const TagsPage = () => {
     )
   }
 
-  return (
-    <section className={classes.root} aria-label='tags-page'>
-      <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
-      {loading ? (
-        <Grid
-          container
-          spacing={2}
-          className={classes.container}
-          component={motion.div}
-          variants={container}
-          initial='hidden'
-          animate='visible'
-          exit='hidden'
-        >
-          {[0, 1, 2, 3, 4, 5].map((x) => (
-            <Grid
-              item
-              key={x}
-              xs={6}
-              sm={4}
-              component={motion.div}
-              variants={item}
-              initial='hidden'
-              animate='visible'
-              exit='hidden'
-            >
-              <SkeletonCard />
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <React.Fragment>
-          <Typography variant='h6' className={classes.heading}>
-            TAGI
-          </Typography>
+  if (loading) {
+    return (
+      <Grid
+        container
+        spacing={2}
+        className={classes.container}
+        component={motion.div}
+        variants={container}
+        initial='hidden'
+        animate='visible'
+        exit='hidden'
+      >
+        {[0, 1, 2, 3, 4, 5].map((x) => (
           <Grid
-            container
-            spacing={2}
-            className={classes.container}
+            item
+            key={x}
+            xs={6}
+            sm={4}
             component={motion.div}
-            variants={container}
+            variants={item}
             initial='hidden'
             animate='visible'
             exit='hidden'
           >
-            {data.allTags.map((tag) => (
-              <Grid
-                item
-                xs={6}
-                sm={4}
-                key={tag.id}
-                component={motion.div}
-                variants={item}
-                initial='hidden'
-                animate='visible'
-                exit='hidden'
-              >
-                <Link href={`/tags/${tag.slug}`}>
-                  <a>
-                    <Box component='div' className={classes.tagItem}>
-                      <span>#</span>
-                      <p>{tag.name}</p>
-                    </Box>
-                  </a>
-                </Link>
-              </Grid>
-            ))}
+            <SkeletonCard />
           </Grid>
-          <LoadMoreButton
-            handleClick={handleClick}
-            meta={data._allTagsMeta}
-            items={data.allTags}
-          />
-        </React.Fragment>
-      )}
+        ))}
+      </Grid>
+    )
+  }
+
+  return (
+    <section className={classes.root} aria-label='tags-page'>
+      <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
+      <Typography variant='h6' className={classes.heading}>
+        TAGI
+      </Typography>
+      <Grid
+        container
+        spacing={2}
+        className={classes.container}
+        component={motion.div}
+        variants={container}
+        initial='hidden'
+        animate='visible'
+        exit='hidden'
+      >
+        {data.allTags.map((tag) => (
+          <Grid
+            item
+            xs={6}
+            sm={4}
+            key={tag.id}
+            component={motion.div}
+            variants={item}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+          >
+            <Link href={`/tags/${tag.slug}`}>
+              <a>
+                <Box component='div' className={classes.tagItem}>
+                  <span>#</span>
+                  <p>{tag.name}</p>
+                </Box>
+              </a>
+            </Link>
+          </Grid>
+        ))}
+      </Grid>
+      <LoadMoreButton
+        handleClick={handleClick}
+        meta={data._allTagsMeta}
+        items={data.allTags}
+      />
     </section>
   )
 }
