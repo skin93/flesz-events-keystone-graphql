@@ -40,12 +40,6 @@ export default function App({ Component, pageProps }) {
           name='viewport'
           content='minimum-scale=1, initial-scale=1, width=device-width'
         />
-        <link rel='preconnect' href='https://fonts.gstatic.com' />
-        <link rel='icon' href='favicon.ico' />
-        <link
-          href='https://fonts.googleapis.com/css2?family=Lato&display=swap'
-          rel='stylesheet'
-        />
       </Head>
       <AnimatePresence exitBeforeEnter>
         <ApolloProvider client={apolloClient}>
