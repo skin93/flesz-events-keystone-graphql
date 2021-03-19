@@ -1,3 +1,4 @@
+import React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
@@ -10,7 +11,12 @@ const SEO = ({ title, description, image }) => {
           ? `${title} | ${process.env.NEXT_PUBLIC_APP_NAME}`
           : process.env.NEXT_PUBLIC_APP_NAME}
       </title>
-
+      <link rel='icon' type='image/png' href='/favicon.ico' />
+      <link rel='apple-touch-icon' href='/favicon.ico' />
+      <meta
+        name='viewport'
+        content='minimum-scale=1, initial-scale=1, width=device-width'
+      />
       <meta
         name='description'
         content={

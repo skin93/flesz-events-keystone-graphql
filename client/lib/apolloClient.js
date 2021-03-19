@@ -5,10 +5,8 @@ let apolloClient
 
 function createApolloClient() {
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined', // set to true for SSR
     link: new HttpLink({
-      uri: `${process.env.NEXT_PUBLIC_APP_DOMAIN}/admin/api`,
-      useGETForQueries: true
+      uri: `${process.env.NEXT_PUBLIC_APP_DOMAIN}/admin/api`
     }),
     cache: new InMemoryCache()
   })

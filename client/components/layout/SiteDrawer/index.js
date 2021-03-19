@@ -54,7 +54,7 @@ const SiteDrawer = ({ navLinks }) => {
   )
 
   return (
-    <React.Fragment>
+    <>
       <IconButton
         edge='start'
         aria-label='menu'
@@ -69,7 +69,7 @@ const SiteDrawer = ({ navLinks }) => {
       >
         {sideDrawerList('right')}
       </Drawer>
-    </React.Fragment>
+    </>
   )
 }
 

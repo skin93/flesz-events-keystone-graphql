@@ -1,3 +1,4 @@
+import React from 'react'
 import { DiscussionEmbed } from 'disqus-react'
 import { makeStyles } from '@material-ui/core/styles'
 

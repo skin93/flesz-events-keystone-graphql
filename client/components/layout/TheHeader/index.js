@@ -41,7 +41,7 @@ const TheHeader = (props) => {
   const classes = useStyles()
 
   return (
-    <React.Fragment>
+    <>
       <HideOnScroll {...props}>
         <AppBar position='fixed' className={classes.appBar}>
           <Toolbar variant='dense' id='back-to-top-anchor'>
@@ -87,7 +87,7 @@ const TheHeader = (props) => {
         </AppBar>
       </HideOnScroll>
       <div className={classes.offset} />
-    </React.Fragment>
+    </>
   )
 }
 

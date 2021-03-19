@@ -124,7 +124,7 @@ const HomePage = () => {
 
 export default HomePage
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const client = initializeApollo()
 
   await client.query({
@@ -133,8 +133,7 @@ export async function getStaticProps() {
   })
 
   return {
-    props: { initialApolloState: client.cache.extract() },
-    revalidate: 1
+    props: { initialApolloState: client.cache.extract() }
   }
 }
 
@@ -153,12 +152,8 @@ const container = {
   visible: { opacity: 1 },
   hidden: { opacity: 0 },
   transition: {
-    type: 'spring',
-    damping: 20,
-    stiffness: 100,
-    transition: {
-      delayChildren: 0.5
-    }
+    ease: 'linear',
+    when: 'afterChildren'
   }
 }
 
@@ -166,8 +161,6 @@ const item = {
   visible: { opacity: 1 },
   hidden: { opacity: 0 },
   transition: {
-    type: 'spring',
-    damping: 20,
-    stiffness: 100
+    ease: 'linear'
   }
 }

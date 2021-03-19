@@ -1,5 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
 import Router, { useRouter } from 'next/router'
 
 import { motion, AnimatePresence } from 'framer-motion'
@@ -33,14 +32,7 @@ export default function App({ Component, pageProps }) {
   }, [])
 
   return (
-    <React.Fragment>
-      <Head>
-        <title>Flesz.Events</title>
-        <meta
-          name='viewport'
-          content='minimum-scale=1, initial-scale=1, width=device-width'
-        />
-      </Head>
+    <>
       <AnimatePresence exitBeforeEnter>
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
@@ -49,12 +41,7 @@ export default function App({ Component, pageProps }) {
             <Container
               maxWidth='lg'
               component={motion.main}
-              transition={{
-                type: 'spring',
-                damping: 20,
-                stiffness: 100,
-                when: 'afterChildren'
-              }}
+              transition={{ ease: 'linear', when: 'afterChildren' }}
               key={router.asPath}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -71,6 +58,6 @@ export default function App({ Component, pageProps }) {
           </ThemeProvider>
         </ApolloProvider>
       </AnimatePresence>
-    </React.Fragment>
+    </>
   )
 }

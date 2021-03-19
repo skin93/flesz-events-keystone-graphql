@@ -108,16 +108,7 @@ const PreviewPage = () => {
       </Typography>
       <Divider className={classes.divider} />
       <Grid container justify='space-between'>
-        <Grid
-          item
-          xs={12}
-          lg={8}
-          component={motion.article}
-          initial='hidden'
-          animate='visible'
-          exit='hidden'
-          variants={item}
-        >
+        <Grid item xs={12} lg={8} component='article'>
           <Grid container>
             <Grid item>
               <Image
@@ -155,18 +146,7 @@ const PreviewPage = () => {
           <Disqus post={data.allPosts[0]} />
         </Grid>
         <Grid item xs={12} lg={1} />
-        <Grid
-          item
-          xs={12}
-          lg={3}
-          container
-          justify='center'
-          component={motion.aside}
-          initial='hidden'
-          animate='visible'
-          exit='hidden'
-          variants={item}
-        >
+        <Grid item xs={12} lg={3} container justify='center' component='aside'>
           <FeaturedPosts />
         </Grid>
       </Grid>
@@ -249,21 +229,7 @@ const container = {
   visible: { opacity: 1 },
   hidden: { opacity: 0 },
   transition: {
-    type: 'spring',
-    damping: 20,
-    stiffness: 100,
-    transition: {
-      delayChildren: 0.5
-    }
-  }
-}
-
-const item = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    type: 'spring',
-    damping: 20,
-    stiffness: 100
+    ease: 'linear',
+    when: 'afterChildren'
   }
 }
