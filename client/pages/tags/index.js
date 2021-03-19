@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 import { useQuery } from '@apollo/client'
+import { initializeApollo } from '../../lib/apolloClient'
 import { ALL_TAGS_QUERY } from '../../lib/queries/tags/allTagsQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -123,6 +124,20 @@ const TagsPage = () => {
 }
 
 export default TagsPage
+
+export async function getStaticProps() {
+  const client = initializeApollo()
+
+  await client.query({
+    query: ALL_TAGS_QUERY,
+    variables: { skip: 0, first: 24 }
+  })
+
+  return {
+    props: { initialApolloState: client.cache.extract() },
+    revalidate: 1
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   root: { padding: '15px' },

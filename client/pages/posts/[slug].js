@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useQuery } from '@apollo/client'
+import { initializeApollo } from '../../lib/apolloClient'
 import { SINGLE_POST_QUERY } from '../../lib/queries/posts/singlePostQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -180,6 +181,19 @@ const PostPage = () => {
 }
 
 export default PostPage
+
+export async function getServerSideProps({ params }) {
+  const client = initializeApollo()
+
+  await client.query({
+    query: SINGLE_POST_QUERY,
+    variables: { slug: params.slug }
+  })
+
+  return {
+    props: { initialApolloState: client.cache.extract() }
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   chips: {

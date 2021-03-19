@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 import { useQuery } from '@apollo/client'
+import { initializeApollo } from '../lib/apolloClient'
 import { ALL_POSTS_QUERY } from '../lib/queries/posts/allPostsQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -44,84 +45,98 @@ const HomePage = () => {
     )
   }
 
+  if (loading) {
+    return (
+      <Grid
+        container
+        spacing={2}
+        className={classes.container}
+        component={motion.div}
+        initial='hidden'
+        animate='visible'
+        exit='hidden'
+        variants={container}
+      >
+        {[0, 1, 2, 3, 4, 5].map((x) => (
+          <Grid
+            item
+            xs={12}
+            md={4}
+            key={x}
+            component={motion.div}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+            variants={item}
+          >
+            <SkeletonCard />
+          </Grid>
+        ))}
+      </Grid>
+    )
+  }
+
   return (
     <section className={classes.root} aria-label='home-page'>
       <SEO />
       <Typography variant='h6' component='h1' className={classes.heading}>
         OSTATNIE WPISY
       </Typography>
-      {loading ? (
-        <Grid
-          container
-          spacing={2}
-          className={classes.container}
-          component={motion.div}
-          initial='hidden'
-          animate='visible'
-          exit='hidden'
-          variants={container}
-        >
-          {[0, 1, 2, 3, 4, 5].map((x) => (
-            <Grid
-              item
-              xs={12}
-              md={4}
-              key={x}
-              component={motion.div}
-              initial='hidden'
-              animate='visible'
-              exit='hidden'
-              variants={item}
-            >
-              <SkeletonCard />
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <React.Fragment>
+      <Grid
+        container
+        spacing={2}
+        className={classes.container}
+        component={motion.div}
+        initial='hidden'
+        animate='visible'
+        exit='hidden'
+        variants={container}
+      >
+        {data.allPosts.map((post) => (
           <Grid
-            container
-            spacing={2}
-            className={classes.container}
+            item
+            key={post.id}
+            xs={12}
+            sm={6}
+            md={4}
             component={motion.div}
             initial='hidden'
             animate='visible'
             exit='hidden'
-            variants={container}
+            variants={item}
           >
-            {data.allPosts.map((post) => (
-              <Grid
-                item
-                key={post.id}
-                xs={12}
-                sm={6}
-                md={4}
-                component={motion.div}
-                initial='hidden'
-                animate='visible'
-                exit='hidden'
-                variants={item}
-              >
-                <Link href={`/posts/${post.slug}`}>
-                  <a>
-                    <BaseCard post={post} />
-                  </a>
-                </Link>
-              </Grid>
-            ))}
+            <Link href={`/posts/${post.slug}`}>
+              <a>
+                <BaseCard post={post} />
+              </a>
+            </Link>
           </Grid>
-          <LoadMoreButton
-            handleClick={handleClick}
-            meta={data._allPostsMeta}
-            items={data.allPosts}
-          />
-        </React.Fragment>
-      )}
+        ))}
+      </Grid>
+      <LoadMoreButton
+        handleClick={handleClick}
+        meta={data._allPostsMeta}
+        items={data.allPosts}
+      />
     </section>
   )
 }
 
 export default HomePage
+
+export async function getStaticProps() {
+  const client = initializeApollo()
+
+  await client.query({
+    query: ALL_POSTS_QUERY,
+    variables: { skip: 0, first: 6 }
+  })
+
+  return {
+    props: { initialApolloState: client.cache.extract() },
+    revalidate: 1
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   root: { padding: '15px' },

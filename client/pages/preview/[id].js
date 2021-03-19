@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 import { useQuery } from '@apollo/client'
+import { initializeApollo } from '../../lib/apolloClient'
 import { PREVIEW_POST_QUERY } from '../../lib/queries/posts/previewPostQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -174,6 +175,19 @@ const PreviewPage = () => {
 }
 
 export default PreviewPage
+
+export async function getServerSideProps({ params }) {
+  const client = initializeApollo()
+
+  await client.query({
+    query: PREVIEW_POST_QUERY,
+    variables: { id: params.id }
+  })
+
+  return {
+    props: { initialApolloState: client.cache.extract() }
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   chips: {

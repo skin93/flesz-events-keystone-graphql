@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { useQuery } from '@apollo/client'
+import { initializeApollo } from '../../lib/apolloClient'
 import { ALL_POSTS_BY_TAG_QUERY } from '../../lib/queries/posts/allPostsByTagQuery'
 import { SINGLE_TAG_QUERY } from '../../lib/queries/tags/singleTagQuery'
 
@@ -135,6 +136,19 @@ const TagPage = () => {
 }
 
 export default TagPage
+
+export async function getServerSideProps({ params }) {
+  const client = initializeApollo()
+
+  await client.query({
+    query: ALL_POSTS_BY_TAG_QUERY,
+    variables: { slug: params.slug, skip: 0, first: 6 }
+  })
+
+  return {
+    props: { initialApolloState: client.cache.extract() }
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   heading: {
