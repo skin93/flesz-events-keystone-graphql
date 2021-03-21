@@ -154,7 +154,7 @@ const PreviewPage = (props) => {
 
 export default PreviewPage
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const data = await request(process.env.NEXT_PUBLIC_API, PREVIEW_POST_QUERY, {
     id: params.id
   })
@@ -162,21 +162,6 @@ export async function getStaticProps({ params }) {
   return {
     props: { data }
   }
-}
-
-export async function getStaticPaths() {
-  const data = await request(
-    process.env.NEXT_PUBLIC_API,
-    ALL_PREVIEW_POSTS_QUERY
-  )
-
-  const paths = data.allPosts.map((post) => ({
-    params: { id: post.id }
-  }))
-
-  console.log(paths)
-
-  return { paths, fallback: false }
 }
 
 const useStyles = makeStyles((theme) => ({
