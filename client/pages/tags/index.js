@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
+import Fade from '@material-ui/core/Fade'
 
 import SkeletonCard from '../../components/UI/SkeletonCard'
 import SEO from '../../components/SEO'
@@ -63,31 +64,35 @@ const TagsPage = (props) => {
   }
 
   return (
-    <section className={classes.root} aria-label='tags-page'>
-      <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
-      <Typography variant='h6' className={classes.heading}>
-        TAGI
-      </Typography>
-      <Grid container spacing={2} className={classes.container}>
-        {data.allTags.map((tag) => (
-          <Grid item xs={6} sm={4} key={tag.id}>
-            <Link href={`/tags/${tag.slug}`}>
-              <a>
-                <Box component='div' className={classes.tagItem}>
-                  <span>#</span>
-                  <p>{tag.name}</p>
-                </Box>
-              </a>
-            </Link>
-          </Grid>
-        ))}
-      </Grid>
-      <LoadMoreButton
-        handleClick={handleClick}
-        meta={data._allTagsMeta}
-        items={data.allTags}
-      />
-    </section>
+    <Fade in timeout={500}>
+      <section className={classes.root} aria-label='tags-page'>
+        <SEO title='Tagi' description='Zbiór wszystkich tagów.' />
+        <Typography variant='h6' className={classes.heading}>
+          TAGI
+        </Typography>
+        <Grid container spacing={2} className={classes.container}>
+          {data.allTags.map((tag) => (
+            <Fade key={tag.id} in timeout={500}>
+              <Grid item xs={6} sm={4}>
+                <Link href={`/tags/${tag.slug}`}>
+                  <a>
+                    <Box component='div' className={classes.tagItem}>
+                      <span>#</span>
+                      <p>{tag.name}</p>
+                    </Box>
+                  </a>
+                </Link>
+              </Grid>
+            </Fade>
+          ))}
+        </Grid>
+        <LoadMoreButton
+          handleClick={handleClick}
+          meta={data._allTagsMeta}
+          items={data.allTags}
+        />
+      </section>
+    </Fade>
   )
 }
 

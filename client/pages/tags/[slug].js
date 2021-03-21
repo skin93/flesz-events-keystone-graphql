@@ -12,6 +12,7 @@ import { SINGLE_TAG_QUERY } from '../../lib/queries/tags/singleTagQuery'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import Fade from '@material-ui/core/Fade'
 
 import BaseCard from '../../components/UI/BaseCard'
 import SkeletonCard from '../../components/UI/SkeletonCard'
@@ -77,32 +78,36 @@ const TagPage = (props) => {
   }
 
   return (
-    <section style={{ padding: '15px' }} aria-label='tag-page'>
-      <SEO
-        title={res2.data.allTags[0].name}
-        description={res2.data.allTags[0].description}
-      />
-      <Typography variant='h6' className={classes.heading}>
-        <span>#</span>
-        {res2.data.allTags[0].name}
-      </Typography>
-      <Grid container spacing={2} className={classes.container}>
-        {res1.data.allPosts.map((post) => (
-          <Grid item key={post.id} xs={12} sm={6} md={4}>
-            <Link href={`/posts/${post.slug}`}>
-              <a>
-                <BaseCard post={post} />
-              </a>
-            </Link>
-          </Grid>
-        ))}
-      </Grid>
-      <LoadMoreButton
-        items={res1.data.allPosts}
-        meta={res1.data._allPostsMeta}
-        handleClick={handleClick}
-      />
-    </section>
+    <Fade in timeout={500}>
+      <section style={{ padding: '15px' }} aria-label='tag-page'>
+        <SEO
+          title={res2.data.allTags[0].name}
+          description={res2.data.allTags[0].description}
+        />
+        <Typography variant='h6' className={classes.heading}>
+          <span>#</span>
+          {res2.data.allTags[0].name}
+        </Typography>
+        <Grid container spacing={2} className={classes.container}>
+          {res1.data.allPosts.map((post) => (
+            <Fade key={post.id} in timeout={500}>
+              <Grid item xs={12} sm={6} md={4}>
+                <Link href={`/posts/${post.slug}`}>
+                  <a>
+                    <BaseCard post={post} />
+                  </a>
+                </Link>
+              </Grid>
+            </Fade>
+          ))}
+        </Grid>
+        <LoadMoreButton
+          items={res1.data.allPosts}
+          meta={res1.data._allPostsMeta}
+          handleClick={handleClick}
+        />
+      </section>
+    </Fade>
   )
 }
 

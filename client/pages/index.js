@@ -9,6 +9,7 @@ import { ALL_POSTS_QUERY } from '../lib/queries/posts/allPostsQuery'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import Fade from '@material-ui/core/Fade'
 
 import BaseCard from '../components/UI/BaseCard'
 import SkeletonCard from '../components/UI/SkeletonCard'
@@ -65,28 +66,32 @@ const HomePage = (props) => {
   }
 
   return (
-    <section className={classes.root} aria-label='home-page'>
-      <SEO />
-      <Typography variant='h6' component='h1' className={classes.heading}>
-        OSTATNIE WPISY
-      </Typography>
-      <Grid container spacing={2} className={classes.container}>
-        {data.allPosts.map((post) => (
-          <Grid item key={post.id} xs={12} sm={6} md={4}>
-            <Link href={`/posts/${post.slug}`}>
-              <a>
-                <BaseCard post={post} />
-              </a>
-            </Link>
-          </Grid>
-        ))}
-      </Grid>
-      <LoadMoreButton
-        handleClick={handleClick}
-        meta={data._allPostsMeta}
-        items={data.allPosts}
-      />
-    </section>
+    <Fade in timeout={500}>
+      <section className={classes.root} aria-label='home-page'>
+        <SEO />
+        <Typography variant='h6' component='h1' className={classes.heading}>
+          OSTATNIE WPISY
+        </Typography>
+        <Grid container spacing={2} className={classes.container}>
+          {data.allPosts.map((post) => (
+            <Fade in timeout={500} key={post.id}>
+              <Grid item xs={12} sm={6} md={4}>
+                <Link href={`/posts/${post.slug}`}>
+                  <a>
+                    <BaseCard post={post} />
+                  </a>
+                </Link>
+              </Grid>
+            </Fade>
+          ))}
+        </Grid>
+        <LoadMoreButton
+          handleClick={handleClick}
+          meta={data._allPostsMeta}
+          items={data.allPosts}
+        />
+      </section>
+    </Fade>
   )
 }
 
