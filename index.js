@@ -5,7 +5,6 @@ const { PasswordAuthStrategy } = require('@keystonejs/auth-password')
 const { GraphQLApp } = require('@keystonejs/app-graphql')
 const { AdminUIApp } = require('@keystonejs/app-admin-ui')
 const { NextApp } = require('@keystonejs/app-next')
-const { StaticApp } = require('@keystonejs/app-static')
 
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose')
 const PROJECT_NAME = 'Flesz.Events'
