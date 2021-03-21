@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-request'
 export const ALL_POSTS_BY_CATEGORY_QUERY = gql`
   query allPostsByCategoryQuery($slug: String!, $skip: Int!, $first: Int!) {
     allPosts(

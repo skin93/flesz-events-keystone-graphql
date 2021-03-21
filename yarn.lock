@@ -6219,6 +6219,15 @@ graphql-language-service-utils@^2.5.1:
     graphql-language-service-types "^1.8.0"
     nullthrows "^1.0.0"
 
+graphql-request@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-3.4.0.tgz#3a400cd5511eb3c064b1873afb059196bbea9c2b"
+  integrity sha512-acrTzidSlwAj8wBNO7Q/UQHS8T+z5qRGquCQRv9J1InwR01BBWV9ObnoE+JS5nCCEj8wSGS0yrDXVDoRiKZuOg==
+  dependencies:
+    cross-fetch "^3.0.6"
+    extract-files "^9.0.0"
+    form-data "^3.0.0"
+
 graphql-subscriptions@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/graphql-subscriptions/-/graphql-subscriptions-1.2.0.tgz#d82ff76e7504ac91acbbea15f36cd3904043937b"
@@ -10687,6 +10696,11 @@ supports-hyperlinks@^2.0.0:
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
+
+swr@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-0.5.4.tgz#9516af6ffd84ba2c23a804ff771be2eb83ba8d46"
+  integrity sha512-TUSxxuC8uP/4JKV22ml91WQ0tbif+9HVhm683xm8KYfwZIW5ogwcnU634dg3x6N7azpIDIOLokoIi+z5vCz/yA==
 
 symbol-observable@1.2.0, symbol-observable@^1.0.3, symbol-observable@^1.0.4:
   version "1.2.0"

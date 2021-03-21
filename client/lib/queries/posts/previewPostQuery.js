@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-request'
 export const PREVIEW_POST_QUERY = gql`
   query previewPostQuery($id: ID!) {
     allPosts(where: { AND: [{ id: $id }, { status: DRAFT }] }) {

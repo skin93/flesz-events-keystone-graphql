@@ -4,11 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { motion } from 'framer-motion'
-
-import { useQuery } from '@apollo/client'
-import { initializeApollo } from '../../lib/apolloClient'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
 import { PREVIEW_POST_QUERY } from '../../lib/queries/posts/previewPostQuery'
+import { ALL_PREVIEW_POSTS_QUERY } from '../../lib/queries/posts/allPreviewPostsQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
@@ -21,13 +20,17 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import FeaturedPosts from '../../components/layout/FeaturedPosts'
 import Disqus from '../../components/Disqus'
 
-const PreviewPage = () => {
+const PreviewPage = (props) => {
   const router = useRouter()
   const { id } = router.query
   const classes = useStyles()
 
-  const { loading, error, data } = useQuery(PREVIEW_POST_QUERY, {
-    variables: { id }
+  const q = PREVIEW_POST_QUERY
+
+  const fetcher = (q, id) => request(process.env.NEXT_PUBLIC_API, q, { id })
+
+  const { error, data } = useSWR([q, id], fetcher, {
+    initialData: props.data
   })
 
   if (error) {
@@ -44,14 +47,9 @@ const PreviewPage = () => {
     )
   }
 
-  if (loading) {
+  if (!data) {
     return (
-      <motion.div
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <div>
         <Skeleton variant='rect' width={800} height={50} />
         <Skeleton variant='text' width={800} />
         <Skeleton variant='rect' width={800} />
@@ -60,7 +58,7 @@ const PreviewPage = () => {
         <Skeleton variant='text' width={800} />
         <Skeleton variant='rect' width={800} height={200} />
         <Skeleton variant='text' width={800} />
-      </motion.div>
+      </div>
     )
   }
 
@@ -156,17 +154,29 @@ const PreviewPage = () => {
 
 export default PreviewPage
 
-export async function getServerSideProps({ params }) {
-  const client = initializeApollo()
-
-  await client.query({
-    query: PREVIEW_POST_QUERY,
-    variables: { id: params.id }
+export async function getStaticProps({ params }) {
+  const data = await request(process.env.NEXT_PUBLIC_API, PREVIEW_POST_QUERY, {
+    id: params.id
   })
 
   return {
-    props: { initialApolloState: client.cache.extract() }
+    props: { data }
   }
+}
+
+export async function getStaticPaths() {
+  const data = await request(
+    process.env.NEXT_PUBLIC_API,
+    ALL_PREVIEW_POSTS_QUERY
+  )
+
+  const paths = data.allPosts.map((post) => ({
+    params: { id: post.id }
+  }))
+
+  console.log(paths)
+
+  return { paths, fallback: false }
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -224,12 +234,3 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.muted.main
   }
 }))
-
-const container = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear',
-    when: 'afterChildren'
-  }
-}

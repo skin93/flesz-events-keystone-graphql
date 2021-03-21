@@ -2,12 +2,10 @@ import React from 'react'
 
 import Link from 'next/link'
 
-import { motion } from 'framer-motion'
-
 import { useRouter } from 'next/router'
 
-import { useQuery } from '@apollo/client'
-import { initializeApollo } from '../../lib/apolloClient'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
 import { ALL_POSTS_BY_CATEGORY_QUERY } from '../../lib/queries/posts/allPostsByCategoryQuery'
 import { SINGLE_CATEGORY_QUERY } from '../../lib/queries/categories/singleCategoryQuery'
 
@@ -20,7 +18,7 @@ import SkeletonCard from '../../components/UI/SkeletonCard'
 import SEO from '../../components/SEO'
 import LoadMoreButton from '../../components/UI/LoadMoreButton'
 
-const CategoryPage = () => {
+const CategoryPage = (props) => {
   const classes = useStyles()
   const router = useRouter()
   const { slug } = router.query
@@ -32,12 +30,24 @@ const CategoryPage = () => {
     setFirst((prev) => prev + 6)
   }
 
-  const res1 = useQuery(ALL_POSTS_BY_CATEGORY_QUERY, {
-    variables: { slug, skip, first }
-  })
-  const res2 = useQuery(SINGLE_CATEGORY_QUERY, { variables: { slug } })
+  const postsQuery = ALL_POSTS_BY_CATEGORY_QUERY
+  const categoryQuery = SINGLE_CATEGORY_QUERY
 
-  const loading = res1.loading || res2.loading
+  const postsFetcher = (query, slug, skip, first) =>
+    request(process.env.NEXT_PUBLIC_API, query, { slug, skip, first })
+
+  const categoryFetcher = (query, slug) =>
+    request(process.env.NEXT_PUBLIC_API, query, { slug })
+
+  const res1 = useSWR([postsQuery, slug, skip, first], postsFetcher, {
+    initialData: props.postsData
+  })
+
+  const res2 = useSWR([categoryQuery, slug], categoryFetcher, {
+    initialData: props.categoryData
+  })
+
+  const loading = !res1.data || !res2.data
   const error = res1.error || res2.error
 
   if (error) {
@@ -56,28 +66,9 @@ const CategoryPage = () => {
 
   if (loading) {
     return (
-      <Grid
-        container
-        spacing={2}
-        component={motion.div}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <Grid container spacing={2}>
         {[0, 1, 2, 3, 4, 5].map((x) => (
-          <Grid
-            item
-            key={x}
-            xs={12}
-            sm={6}
-            md={4}
-            component={motion.div}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-            variants={item}
-          >
+          <Grid item key={x} xs={12} sm={6} md={4}>
             <SkeletonCard />
           </Grid>
         ))}
@@ -95,29 +86,9 @@ const CategoryPage = () => {
         <span>#</span>
         {res2.data.allCategories[0].name}
       </Typography>
-      <Grid
-        container
-        spacing={2}
-        className={classes.container}
-        component={motion.div}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <Grid container spacing={2} className={classes.container}>
         {res1.data.allPosts.map((post) => (
-          <Grid
-            item
-            key={post.id}
-            xs={12}
-            sm={6}
-            md={4}
-            component={motion.div}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-            variants={item}
-          >
+          <Grid item key={post.id} xs={12} sm={6} md={4}>
             <Link href={`/posts/${post.slug}`}>
               <a>
                 <BaseCard post={post} />
@@ -138,15 +109,26 @@ const CategoryPage = () => {
 export default CategoryPage
 
 export async function getServerSideProps({ params }) {
-  const client = initializeApollo()
+  const postsData = await request(
+    process.env.NEXT_PUBLIC_API,
+    ALL_POSTS_BY_CATEGORY_QUERY,
+    {
+      slug: params.slug,
+      skip: 0,
+      first: 6
+    }
+  )
 
-  await client.query({
-    query: ALL_POSTS_BY_CATEGORY_QUERY,
-    variables: { slug: params.slug, skip: 0, first: 6 }
-  })
+  const categoryData = await request(
+    process.env.NEXT_PUBLIC_API,
+    SINGLE_CATEGORY_QUERY,
+    {
+      slug: params.slug
+    }
+  )
 
   return {
-    props: { initialApolloState: client.cache.extract() }
+    props: { postsData, categoryData }
   }
 }
 
@@ -170,20 +152,3 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.accent.main
   }
 }))
-
-const container = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear',
-    when: 'afterChildren'
-  }
-}
-
-const item = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear'
-  }
-}

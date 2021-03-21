@@ -2,10 +2,8 @@ import React from 'react'
 
 import Link from 'next/link'
 
-import { motion } from 'framer-motion'
-
-import { useQuery } from '@apollo/client'
-import { initializeApollo } from '../lib/apolloClient'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
 import { ALL_POSTS_QUERY } from '../lib/queries/posts/allPostsQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -17,7 +15,7 @@ import SkeletonCard from '../components/UI/SkeletonCard'
 import SEO from '../components/SEO'
 import LoadMoreButton from '../components/UI/LoadMoreButton'
 
-const HomePage = () => {
+const HomePage = (props) => {
   const classes = useStyles()
 
   const [skip, setSkip] = React.useState(0)
@@ -27,8 +25,17 @@ const HomePage = () => {
     setFirst((prev) => prev + 6)
   }
 
-  const { loading, error, data } = useQuery(ALL_POSTS_QUERY, {
-    variables: { skip, first }
+  const fetcher = (query, skip, first) => {
+    return request(process.env.NEXT_PUBLIC_API, query, {
+      skip,
+      first
+    })
+  }
+
+  const q = ALL_POSTS_QUERY
+
+  const { error, data } = useSWR([q, skip, first], fetcher, {
+    initialData: props.data
   })
 
   if (error) {
@@ -45,30 +52,11 @@ const HomePage = () => {
     )
   }
 
-  if (loading) {
+  if (!data) {
     return (
-      <Grid
-        container
-        spacing={2}
-        className={classes.container}
-        component={motion.div}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <Grid container spacing={2} className={classes.container}>
         {[0, 1, 2, 3, 4, 5].map((x) => (
-          <Grid
-            item
-            xs={12}
-            md={4}
-            key={x}
-            component={motion.div}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-            variants={item}
-          >
+          <Grid item xs={12} md={4} key={x}>
             <SkeletonCard />
           </Grid>
         ))}
@@ -82,29 +70,9 @@ const HomePage = () => {
       <Typography variant='h6' component='h1' className={classes.heading}>
         OSTATNIE WPISY
       </Typography>
-      <Grid
-        container
-        spacing={2}
-        className={classes.container}
-        component={motion.div}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <Grid container spacing={2} className={classes.container}>
         {data.allPosts.map((post) => (
-          <Grid
-            item
-            key={post.id}
-            xs={12}
-            sm={6}
-            md={4}
-            component={motion.div}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-            variants={item}
-          >
+          <Grid item key={post.id} xs={12} sm={6} md={4}>
             <Link href={`/posts/${post.slug}`}>
               <a>
                 <BaseCard post={post} />
@@ -125,15 +93,13 @@ const HomePage = () => {
 export default HomePage
 
 export async function getServerSideProps() {
-  const client = initializeApollo()
-
-  await client.query({
-    query: ALL_POSTS_QUERY,
-    variables: { skip: 0, first: 6 }
+  const data = await request(process.env.NEXT_PUBLIC_API, ALL_POSTS_QUERY, {
+    skip: 0,
+    first: 6
   })
 
   return {
-    props: { initialApolloState: client.cache.extract() }
+    props: { data }
   }
 }
 
@@ -147,20 +113,3 @@ const useStyles = makeStyles((theme) => ({
     marginTop: `30px`
   }
 }))
-
-const container = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear',
-    when: 'afterChildren'
-  }
-}
-
-const item = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear'
-  }
-}

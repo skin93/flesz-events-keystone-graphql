@@ -4,10 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { motion } from 'framer-motion'
-
-import { useQuery } from '@apollo/client'
-import { initializeApollo } from '../../lib/apolloClient'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
 import { SINGLE_POST_QUERY } from '../../lib/queries/posts/singlePostQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -22,13 +20,18 @@ import FeaturedPosts from '../../components/layout/FeaturedPosts'
 import SEO from '../../components/SEO'
 import Disqus from '../../components/Disqus'
 
-const PostPage = () => {
+const PostPage = (props) => {
   const router = useRouter()
-  const { slug } = router.query
+  const slug = router.query.slug
   const classes = useStyles()
 
-  const { loading, error, data } = useQuery(SINGLE_POST_QUERY, {
-    variables: { slug }
+  const q = SINGLE_POST_QUERY
+
+  const fetcher = (query, slug) =>
+    request(process.env.NEXT_PUBLIC_API, query, { slug })
+
+  const { error, data } = useSWR([q, slug], fetcher, {
+    initialData: props.data
   })
 
   if (error) {
@@ -45,14 +48,9 @@ const PostPage = () => {
     )
   }
 
-  if (loading) {
+  if (!data) {
     return (
-      <motion.div
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <div>
         <Skeleton variant='rect' width={800} height={50} />
         <Skeleton variant='text' width={800} />
         <Skeleton variant='rect' width={800} />
@@ -61,7 +59,7 @@ const PostPage = () => {
         <Skeleton variant='text' width={800} />
         <Skeleton variant='rect' width={800} height={200} />
         <Skeleton variant='text' width={800} />
-      </motion.div>
+      </div>
     )
   }
 
@@ -163,15 +161,12 @@ const PostPage = () => {
 export default PostPage
 
 export async function getServerSideProps({ params }) {
-  const client = initializeApollo()
-
-  await client.query({
-    query: SINGLE_POST_QUERY,
-    variables: { slug: params.slug }
+  const data = await request(process.env.NEXT_PUBLIC_API, SINGLE_POST_QUERY, {
+    slug: params.slug
   })
 
   return {
-    props: { initialApolloState: client.cache.extract() }
+    props: { data }
   }
 }
 
@@ -230,12 +225,3 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.muted.main
   }
 }))
-
-const container = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear',
-    when: 'afterChildren'
-  }
-}

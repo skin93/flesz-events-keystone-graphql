@@ -2,12 +2,10 @@ import React from 'react'
 
 import Link from 'next/link'
 
-import { motion } from 'framer-motion'
-
 import { useRouter } from 'next/router'
 
-import { useQuery } from '@apollo/client'
-import { initializeApollo } from '../../lib/apolloClient'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
 import { ALL_POSTS_BY_TAG_QUERY } from '../../lib/queries/posts/allPostsByTagQuery'
 import { SINGLE_TAG_QUERY } from '../../lib/queries/tags/singleTagQuery'
 
@@ -20,7 +18,7 @@ import SkeletonCard from '../../components/UI/SkeletonCard'
 import SEO from '../../components/SEO'
 import LoadMoreButton from '../../components/UI/LoadMoreButton'
 
-const TagPage = () => {
+const TagPage = (props) => {
   const classes = useStyles()
   const router = useRouter()
   const { slug } = router.query
@@ -32,12 +30,24 @@ const TagPage = () => {
     setFirst((prev) => prev + 6)
   }
 
-  const res1 = useQuery(ALL_POSTS_BY_TAG_QUERY, {
-    variables: { slug, skip, first }
-  })
-  const res2 = useQuery(SINGLE_TAG_QUERY, { variables: { slug } })
+  const postsQuery = ALL_POSTS_BY_TAG_QUERY
+  const tagQuery = SINGLE_TAG_QUERY
 
-  const loading = res1.loading || res2.loading
+  const postsFetcher = (query, slug, skip, first) =>
+    request(process.env.NEXT_PUBLIC_API, query, { slug, skip, first })
+
+  const tagFetcher = (query, slug) =>
+    request(process.env.NEXT_PUBLIC_API, query, { slug })
+
+  const res1 = useSWR([postsQuery, slug, skip, first], postsFetcher, {
+    initialData: props.postsData
+  })
+
+  const res2 = useSWR([tagQuery, slug], tagFetcher, {
+    initialData: props.tagData
+  })
+
+  const loading = !res1.data || !res2.data
   const error = res1.error || res2.error
 
   if (error) {
@@ -56,28 +66,9 @@ const TagPage = () => {
 
   if (loading) {
     return (
-      <Grid
-        container
-        spacing={2}
-        component={motion.div}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <Grid container spacing={2}>
         {[0, 1, 2, 3, 4, 5].map((x) => (
-          <Grid
-            item
-            key={x}
-            xs={12}
-            sm={6}
-            md={4}
-            component={motion.div}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-            variants={item}
-          >
+          <Grid item key={x} xs={12} sm={6} md={4}>
             <SkeletonCard />
           </Grid>
         ))}
@@ -95,29 +86,9 @@ const TagPage = () => {
         <span>#</span>
         {res2.data.allTags[0].name}
       </Typography>
-      <Grid
-        container
-        spacing={2}
-        className={classes.container}
-        component={motion.div}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-        variants={container}
-      >
+      <Grid container spacing={2} className={classes.container}>
         {res1.data.allPosts.map((post) => (
-          <Grid
-            item
-            key={post.id}
-            xs={12}
-            sm={6}
-            md={4}
-            component={motion.div}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-            variants={item}
-          >
+          <Grid item key={post.id} xs={12} sm={6} md={4}>
             <Link href={`/posts/${post.slug}`}>
               <a>
                 <BaseCard post={post} />
@@ -138,15 +109,22 @@ const TagPage = () => {
 export default TagPage
 
 export async function getServerSideProps({ params }) {
-  const client = initializeApollo()
+  const postsData = await request(
+    process.env.NEXT_PUBLIC_API,
+    ALL_POSTS_BY_TAG_QUERY,
+    {
+      slug: params.slug,
+      skip: 0,
+      first: 6
+    }
+  )
 
-  await client.query({
-    query: ALL_POSTS_BY_TAG_QUERY,
-    variables: { slug: params.slug, skip: 0, first: 6 }
+  const tagData = await request(process.env.NEXT_PUBLIC_API, SINGLE_TAG_QUERY, {
+    slug: params.slug
   })
 
   return {
-    props: { initialApolloState: client.cache.extract() }
+    props: { postsData, tagData }
   }
 }
 
@@ -170,20 +148,3 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.accent.main
   }
 }))
-
-const container = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear',
-    when: 'afterChildren'
-  }
-}
-
-const item = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear'
-  }
-}

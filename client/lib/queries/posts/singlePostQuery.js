@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-request'
 export const SINGLE_POST_QUERY = gql`
   query SinglePostQuery($slug: String!) {
     allPosts(where: { slug: $slug }) {

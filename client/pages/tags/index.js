@@ -1,10 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { motion } from 'framer-motion'
-
-import { useQuery } from '@apollo/client'
-import { initializeApollo } from '../../lib/apolloClient'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
 import { ALL_TAGS_QUERY } from '../../lib/queries/tags/allTagsQuery'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -16,7 +14,7 @@ import SkeletonCard from '../../components/UI/SkeletonCard'
 import SEO from '../../components/SEO'
 import LoadMoreButton from '../../components/UI/LoadMoreButton'
 
-const TagsPage = () => {
+const TagsPage = (props) => {
   const classes = useStyles()
 
   const [skip, setSkip] = React.useState(0)
@@ -25,9 +23,17 @@ const TagsPage = () => {
   const handleClick = () => {
     setFirst((prev) => prev + 24)
   }
+  const fetcher = (query, skip, first) => {
+    return request(process.env.NEXT_PUBLIC_API, query, {
+      skip,
+      first
+    })
+  }
 
-  const { loading, error, data } = useQuery(ALL_TAGS_QUERY, {
-    variables: { skip, first }
+  const q = ALL_TAGS_QUERY
+
+  const { error, data } = useSWR([q, skip, first], fetcher, {
+    initialData: props.data
   })
 
   if (error) {
@@ -44,30 +50,11 @@ const TagsPage = () => {
     )
   }
 
-  if (loading) {
+  if (!data) {
     return (
-      <Grid
-        container
-        spacing={2}
-        className={classes.container}
-        component={motion.div}
-        variants={container}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-      >
+      <Grid container spacing={2} className={classes.container}>
         {[0, 1, 2, 3, 4, 5].map((x) => (
-          <Grid
-            item
-            key={x}
-            xs={6}
-            sm={4}
-            component={motion.div}
-            variants={item}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-          >
+          <Grid item key={x} xs={6} sm={4}>
             <SkeletonCard />
           </Grid>
         ))}
@@ -81,28 +68,9 @@ const TagsPage = () => {
       <Typography variant='h6' className={classes.heading}>
         TAGI
       </Typography>
-      <Grid
-        container
-        spacing={2}
-        className={classes.container}
-        component={motion.div}
-        variants={container}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
-      >
+      <Grid container spacing={2} className={classes.container}>
         {data.allTags.map((tag) => (
-          <Grid
-            item
-            xs={6}
-            sm={4}
-            key={tag.id}
-            component={motion.div}
-            variants={item}
-            initial='hidden'
-            animate='visible'
-            exit='hidden'
-          >
+          <Grid item xs={6} sm={4} key={tag.id}>
             <Link href={`/tags/${tag.slug}`}>
               <a>
                 <Box component='div' className={classes.tagItem}>
@@ -126,15 +94,13 @@ const TagsPage = () => {
 export default TagsPage
 
 export async function getServerSideProps() {
-  const client = initializeApollo()
-
-  await client.query({
-    query: ALL_TAGS_QUERY,
-    variables: { skip: 0, first: 24 }
+  const data = await request(process.env.NEXT_PUBLIC_API, ALL_TAGS_QUERY, {
+    skip: 0,
+    first: 24
   })
 
   return {
-    props: { initialApolloState: client.cache.extract() }
+    props: { data }
   }
 }
 
@@ -164,20 +130,3 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 }))
-
-const container = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear',
-    when: 'afterChildren'
-  }
-}
-
-const item = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-  transition: {
-    ease: 'linear'
-  }
-}

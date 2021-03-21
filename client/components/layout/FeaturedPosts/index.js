@@ -6,16 +6,21 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import Grid from '@material-ui/core/Grid'
 
-import { useQuery } from '@apollo/client'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
 import { ALL_FEATURED_POSTS_QUERY } from '../../../lib/queries/posts/allFeaturedPostsQuery'
 
 import FeaturedCard from '../../../components/UI/FeaturedCard'
 
 const FeaturedPosts = () => {
-  const { loading, error, data } = useQuery(ALL_FEATURED_POSTS_QUERY)
+  const q = ALL_FEATURED_POSTS_QUERY
+
+  const fetcher = (q) => request(process.env.NEXT_PUBLIC_API, q)
+
+  const { error, data } = useSWR(q, fetcher)
   const classes = useStyles()
 
-  if (loading) {
+  if (!data) {
     return <div>Loading...</div>
   }
   if (error) {

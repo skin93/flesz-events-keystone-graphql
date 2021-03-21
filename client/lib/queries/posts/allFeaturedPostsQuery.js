@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-request'
 export const ALL_FEATURED_POSTS_QUERY = gql`
   query AllFeaturedPostsQuery {
     allPosts(
