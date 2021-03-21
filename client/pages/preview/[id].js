@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
-import Fade from '@material-ui/core/Divider'
+import Fade from '@material-ui/core/Fade'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 import FeaturedPosts from '../../components/layout/FeaturedPosts'
@@ -22,12 +22,13 @@ import Disqus from '../../components/Disqus'
 
 const PreviewPage = (props) => {
   const router = useRouter()
-  const { id } = router.query
+  const id = router.query.id
   const classes = useStyles()
 
   const q = PREVIEW_POST_QUERY
 
-  const fetcher = (q, id) => request(process.env.NEXT_PUBLIC_API, q, { id })
+  const fetcher = (query, id) =>
+    request(process.env.NEXT_PUBLIC_API, query, { id })
 
   const { error, data } = useSWR([q, id], fetcher, {
     initialData: props.data
@@ -72,6 +73,7 @@ const PreviewPage = (props) => {
           <Link href={`/categories/${data.allPosts[0].category.slug}`}>
             <a>
               <Chip
+                variant='outlined'
                 label={data.allPosts[0].category.name}
                 className={classes.category}
               />
@@ -84,6 +86,7 @@ const PreviewPage = (props) => {
                   key={tag.name}
                   label={tag.name}
                   className={classes.tagItem}
+                  variant='outlined'
                 />
               </a>
             </Link>
@@ -91,12 +94,14 @@ const PreviewPage = (props) => {
           <Chip
             label={data.allPosts[0].createdAt.split('T')[0]}
             className={classes.createdAt}
+            variant='outlined'
           />
           {data.allPosts[0].authors.map((author) => (
             <Chip
-              label={<span>@{author.name}</span>}
+              label={author.name}
               key={author.name}
               className={classes.author}
+              variant='outlined'
             />
           ))}
         </Box>
@@ -123,7 +128,7 @@ const PreviewPage = (props) => {
                   aria-label='article-cover'
                 />
                 <Typography
-                  variant='caption'
+                  variant='subtitle2'
                   className={classes.coverSrc}
                   aria-label='article-cover-src'
                 >
@@ -198,32 +203,33 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.muted.main
   },
   category: {
-    color: theme.palette.black.main,
-    fontWeight: `bold`,
-    backgroundColor: theme.palette.accent.main,
+    color: theme.palette.accent.main,
     cursor: 'pointer',
     textTransform: 'uppercase',
     marginRight: '10px',
-    fontSize: '.7em',
-    borderRadius: '0px'
+    fontSize: 'calc(.7em + .2vw)',
+    borderRadius: '0px',
+    borderColor: theme.palette.accent.main
   },
   tagItem: {
-    fontWeight: `bold`,
     cursor: 'pointer',
     textTransform: 'uppercase',
     marginRight: '10px',
-    fontSize: '.7em',
-    borderRadius: '0px'
+    fontSize: 'calc(.7em + .2vw)',
+    borderRadius: '0px',
+    color: theme.palette.light.main,
+    borderColor: theme.palette.light.main
   },
   createdAt: {
-    backgroundColor: theme.palette.muted.darker,
+    borderColor: theme.palette.muted.darker,
     marginRight: '10px',
-    fontSize: '.7em',
+    fontSize: 'calc(.7em + .2vw)',
     borderRadius: '0px'
   },
   author: {
-    backgroundColor: theme.palette.muted.darker,
-    borderRadius: '0px'
+    borderColor: theme.palette.muted.darker,
+    borderRadius: '0px',
+    fontSize: 'calc(.7em + .2vw)'
   },
   divider: {
     margin: `30px 0`,
