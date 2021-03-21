@@ -76,6 +76,7 @@ const PostPage = (props) => {
           <Link href={`/categories/${data.allPosts[0].category.slug}`}>
             <a>
               <Chip
+                variant='outlined'
                 label={data.allPosts[0].category.name}
                 className={classes.category}
               />
@@ -88,6 +89,7 @@ const PostPage = (props) => {
                   key={tag.name}
                   label={tag.name}
                   className={classes.tagItem}
+                  variant='outlined'
                 />
               </a>
             </Link>
@@ -95,12 +97,14 @@ const PostPage = (props) => {
           <Chip
             label={data.allPosts[0].createdAt.split('T')[0]}
             className={classes.createdAt}
+            variant='outlined'
           />
           {data.allPosts[0].authors.map((author) => (
             <Chip
-              label={<span>@{author.name}</span>}
+              label={author.name}
               key={author.name}
               className={classes.author}
+              variant='outlined'
             />
           ))}
         </Box>
@@ -127,7 +131,7 @@ const PostPage = (props) => {
                   aria-label='article-cover'
                 />
                 <Typography
-                  variant='caption'
+                  variant='subtitle2'
                   className={classes.coverSrc}
                   aria-label='article-cover-src'
                 >
@@ -202,32 +206,33 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.muted.main
   },
   category: {
-    color: theme.palette.black.main,
-    fontWeight: `bold`,
-    backgroundColor: theme.palette.accent.main,
+    color: theme.palette.accent.main,
     cursor: 'pointer',
     textTransform: 'uppercase',
     marginRight: '10px',
-    fontSize: '.7em',
-    borderRadius: '0px'
+    fontSize: 'calc(.7em + .2vw)',
+    borderRadius: '0px',
+    borderColor: theme.palette.accent.main
   },
   tagItem: {
-    fontWeight: `bold`,
     cursor: 'pointer',
     textTransform: 'uppercase',
     marginRight: '10px',
-    fontSize: '.7em',
-    borderRadius: '0px'
+    fontSize: 'calc(.7em + .2vw)',
+    borderRadius: '0px',
+    color: theme.palette.light.main,
+    borderColor: theme.palette.light.main
   },
   createdAt: {
-    backgroundColor: theme.palette.muted.darker,
+    borderColor: theme.palette.muted.darker,
     marginRight: '10px',
-    fontSize: '.7em',
+    fontSize: 'calc(.7em + .2vw)',
     borderRadius: '0px'
   },
   author: {
-    backgroundColor: theme.palette.muted.darker,
-    borderRadius: '0px'
+    borderColor: theme.palette.muted.darker,
+    borderRadius: '0px',
+    fontSize: 'calc(.7em + .2vw)'
   },
   divider: {
     margin: `30px 0`,
