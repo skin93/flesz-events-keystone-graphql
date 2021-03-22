@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 
 import useSWR from 'swr'
 import { request } from 'graphql-request'
@@ -8,34 +7,58 @@ import { ALL_TAGS_QUERY } from '../../lib/queries/tags/allTagsQuery'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
 import Fade from '@material-ui/core/Fade'
+import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Button from '@material-ui/core/Button'
+
+import SearchIcon from '@material-ui/icons/Search'
 
 import SkeletonCard from '../../components/UI/SkeletonCard'
 import SEO from '../../components/SEO'
-import LoadMoreButton from '../../components/UI/LoadMoreButton'
+import TagsContainer from '../../components/tags/TagsContainer'
 
 const TagsPage = (props) => {
   const classes = useStyles()
 
-  const [skip, setSkip] = React.useState(0)
-  const [first, setFirst] = React.useState(24)
+  const tagsPerPage = 24
 
-  const handleClick = () => {
-    setFirst((prev) => prev + 24)
+  const [tagsToShow, setTagsToShow] = React.useState([])
+  const [next, setNext] = React.useState(tagsPerPage)
+  const [tagsFound, setTagsFound] = React.useState([])
+
+  const loopWithSlice = (start, end) => {
+    const slicedTags = data.allTags.slice(start, end)
+    setTagsToShow((prevTags) => [...prevTags, ...slicedTags])
   }
-  const fetcher = (query, skip, first) => {
-    return request(process.env.NEXT_PUBLIC_API, query, {
-      skip,
-      first
-    })
+
+  React.useEffect(() => {
+    loopWithSlice(0, tagsPerPage)
+  }, [])
+
+  const handleShowMoreTags = () => {
+    loopWithSlice(next, next + tagsPerPage)
+    setNext(next + tagsPerPage)
+  }
+
+  const fetcher = (query) => {
+    return request(process.env.NEXT_PUBLIC_API, query)
   }
 
   const q = ALL_TAGS_QUERY
 
-  const { error, data } = useSWR([q, skip, first], fetcher, {
+  const { error, data } = useSWR(q, fetcher, {
     initialData: props.data
   })
+
+  const handleChange = (e) => {
+    const tagsFound = data.allTags.filter(
+      (tag) =>
+        e.target.value !== '' &&
+        tag.name.toLowerCase().includes(e.target.value.toLowerCase())
+    )
+    setTagsFound(tagsFound)
+  }
 
   if (error) {
     return (
@@ -70,27 +93,36 @@ const TagsPage = (props) => {
         <Typography variant='h6' className={classes.heading}>
           TAGI
         </Typography>
-        <Grid container spacing={2} className={classes.container}>
-          {data.allTags.map((tag) => (
-            <Fade key={tag.id} in timeout={500}>
-              <Grid item xs={6} sm={4}>
-                <Link href={`/tags/${tag.slug}`}>
-                  <a>
-                    <Box component='div' className={classes.tagItem}>
-                      <span>#</span>
-                      <p>{tag.name}</p>
-                    </Box>
-                  </a>
-                </Link>
-              </Grid>
-            </Fade>
-          ))}
-        </Grid>
-        <LoadMoreButton
-          handleClick={handleClick}
-          meta={data._allTagsMeta}
-          items={data.allTags}
-        />
+        <form className={classes.form} noValidate autoComplete='off'>
+          <TextField
+            onChange={handleChange}
+            className={classes.textField}
+            id='outlined-basic'
+            label='Szukaj tagu'
+            variant='outlined'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+          />
+        </form>
+        {tagsFound.length > 0 ? (
+          <TagsContainer aria-label='tags-filtered' tags={tagsFound} />
+        ) : (
+          <TagsContainer aria-label='all-tags' tags={tagsToShow} />
+        )}
+        <Button
+          onChange={handleChange}
+          disabled={next >= data._allTagsMeta.count}
+          onClick={handleShowMoreTags}
+          variant='outlined'
+          className={classes.loadMoreButton}
+        >
+          Load more
+        </Button>
       </section>
     </Fade>
   )
@@ -99,10 +131,7 @@ const TagsPage = (props) => {
 export default TagsPage
 
 export async function getServerSideProps() {
-  const data = await request(process.env.NEXT_PUBLIC_API, ALL_TAGS_QUERY, {
-    skip: 0,
-    first: 24
-  })
+  const data = await request(process.env.NEXT_PUBLIC_API, ALL_TAGS_QUERY)
 
   return {
     props: { data }
@@ -115,23 +144,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: `center`,
     color: theme.palette.light.main
   },
-  container: {
-    marginTop: `30px`
-  },
-  tagItem: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: theme.palette.light.main,
+  form: {
+    display: 'block',
     textAlign: 'center',
-    fontSize: 'calc(.7rem + .5vw)',
-    backgroundColor: 'inherit',
-    transition: 'all .2s ease-in-out',
-    '& span': {
-      color: theme.palette.accent.main
-    },
-    '&:hover': {
-      backgroundColor: theme.palette.muted.darker
-    }
+    margin: '30px auto'
+  },
+  textField: {
+    width: '50%'
+  },
+  loadMoreButton: {
+    display: 'block',
+    margin: '30px auto',
+    textAlign: 'center',
+    color: theme.palette.accent.main
   }
 }))

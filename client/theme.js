@@ -93,6 +93,9 @@ const theme = createMuiTheme({
     }
   },
   palette: {
+    primary: {
+      main: '#32e0c4'
+    },
     type: 'dark',
     accent: {
       main: '#32e0c4'
