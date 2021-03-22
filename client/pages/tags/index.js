@@ -121,7 +121,7 @@ const TagsPage = (props) => {
           variant='outlined'
           className={classes.loadMoreButton}
         >
-          Load more
+          Wczytaj więcej
         </Button>
       </section>
     </Fade>
